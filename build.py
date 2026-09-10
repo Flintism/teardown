@@ -45,7 +45,10 @@ import validate
 # ---------------------------------------------------------------- config ----
 import os
 # Set TEARDOWN_SITE_URL in your host's build settings, or edit the fallback.
-SITE_URL    = os.environ.get("TEARDOWN_SITE_URL", "https://teardown.dev")
+# GitHub Pages serves the lowercase form of the account name, and a
+# project repo is served from a subpath, not the domain root.
+SITE_URL    = os.environ.get("TEARDOWN_SITE_URL",
+                             "https://flintism.github.io/teardown")
 SITE_NAME   = "Teardown"
 SITE_TAG    = "tools, taken apart"
 SITE_DESC   = ("Hands-on tutorials and head-to-head comparisons of AI coding "

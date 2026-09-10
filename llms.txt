@@ -19,7 +19,7 @@ _None published yet._
 
 ## Tutorials
 
-- [Hooks: make Claude Code follow your rules automatically](https://teardown.dev/posts/claude-code-hooks.html): A prompt is a suggestion. A hook is a guarantee. Wire up formatting, guardrails and notifications in about twenty minutes.
+- [Hooks: make Claude Code follow your rules automatically](https://flintism.github.io/teardown/posts/claude-code-hooks.html): A prompt is a suggestion. A hook is a guarantee. Wire up formatting, guardrails and notifications in about twenty minutes.
 
 ## Guides
 
@@ -27,8 +27,8 @@ _None published yet._
 
 ## About
 
-- [How we test](https://teardown.dev/about.html): methodology, independence policy, corrections policy.
-- [Full library](https://teardown.dev/library.html): every post, filterable by topic.
+- [How we test](https://flintism.github.io/teardown/about.html): methodology, independence policy, corrections policy.
+- [Full library](https://flintism.github.io/teardown/library.html): every post, filterable by topic.
 
 ## In progress
 
