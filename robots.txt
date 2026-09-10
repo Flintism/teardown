@@ -1,0 +1,79 @@
+# robots.txt - Teardown
+#
+# This site is CLOSED to search engines and AI crawlers.
+# Every page also carries <meta name="robots" content="noindex">,
+# because Disallow alone stops crawling but not indexing.
+#
+# To open the site: set ALLOW_SEARCH_INDEXING = True in build.py and
+# rebuild. That flips this file and the meta tag on every page at once.
+
+User-agent: *
+Disallow: /
+
+# OpenAI — ChatGPT training + browsing
+User-agent: GPTBot
+Disallow: /
+
+# OpenAI — ChatGPT search index
+User-agent: OAI-SearchBot
+Disallow: /
+
+# OpenAI — user-initiated fetches
+User-agent: ChatGPT-User
+Disallow: /
+
+# Anthropic — Claude
+User-agent: ClaudeBot
+Disallow: /
+
+# Anthropic — user-initiated fetches
+User-agent: Claude-User
+Disallow: /
+
+# Anthropic — Claude search
+User-agent: Claude-SearchBot
+Disallow: /
+
+# Perplexity — index
+User-agent: PerplexityBot
+Disallow: /
+
+# Perplexity — user-initiated fetches
+User-agent: Perplexity-User
+Disallow: /
+
+# Google — Gemini / AI Overviews grounding
+User-agent: Google-Extended
+Disallow: /
+
+# Apple Intelligence
+User-agent: Applebot-Extended
+Disallow: /
+
+# Microsoft Bing + Copilot
+User-agent: Bingbot
+Disallow: /
+
+# Common Crawl — feeds many models
+User-agent: CCBot
+Disallow: /
+
+# Meta AI
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+# Amazon / Alexa
+User-agent: Amazonbot
+Disallow: /
+
+# Cohere
+User-agent: cohere-ai
+Disallow: /
+
+# DuckDuckGo AI
+User-agent: DuckAssistBot
+Disallow: /
+
+# You.com
+User-agent: YouBot
+Disallow: /

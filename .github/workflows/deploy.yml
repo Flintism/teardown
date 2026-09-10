@@ -1,0 +1,62 @@
+# Build and publish to GitHub Pages.
+#
+# Set the repository variable SITE_URL (Settings -> Secrets and variables ->
+# Actions -> Variables) to your live URL, e.g. https://you.github.io/teardown
+# or your custom domain. Without it the build falls back to the placeholder
+# and every canonical tag will be wrong.
+#
+# Note: GitHub Pages ignores _headers, so you get its default 10-minute cache
+# and none of the security headers. Netlify or Cloudflare Pages read that file.
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install build dependencies
+        run: |
+          pip install pillow
+          npm ci --omit=optional || npm install
+
+      - name: Build
+        env:
+          TEARDOWN_SITE_URL: ${{ vars.SITE_URL }}
+        run: python build.py
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

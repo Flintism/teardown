@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "teardown",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["serve.py", "4321"],
+      "port": 4321
+    }
+  ]
+}

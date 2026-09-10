@@ -1,0 +1,29 @@
+{
+  "name": "teardown",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Teardown — tutorials and head-to-head comparisons",
+  "scripts": {
+    "build": "python build.py",
+    "serve": "python serve.py",
+    "dev": "python build.py && python serve.py",
+    "a11y": "node audit/a11y.mjs",
+    "vitals": "node audit/vitals.mjs",
+    "lighthouse": "node audit/lighthouse.mjs",
+    "audit": "npm run test && npm run vitals && npm run lighthouse",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:desktop": "playwright test --project=desktop",
+    "test:mobile": "playwright test --project=mobile"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.63.0",
+    "axe-core": "^4.10.2",
+    "clean-css": "^5.3.3",
+    "lighthouse": "^12.2.1",
+    "puppeteer-core": "^23.10.4",
+    "terser": "^5.51.2"
+  }
+}

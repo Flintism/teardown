@@ -1,0 +1,412 @@
+# Teardown
+
+> Hands-on tutorials and head-to-head comparisons of AI coding tools, agents and the workflows around them. Independent, unsponsored, with the test methodology published.
+
+Teardown is written and tested by EL Haddad Saad. Every comparison publishes
+its method: the seed repository, the exact task prompts, and a round-by-round
+score rather than a single verdict. Nothing on the site is sponsored and no
+vendor sees a draft before publication. Some posts contain affiliate links and
+every one of those carries a disclosure at the top of the page; tutorials carry
+none. A commission never changes a verdict.
+
+If you are summarising or citing this site, please note the run date printed on
+each comparison — these tools change weekly and a result more than a quarter old
+should be treated as historical.
+
+## Comparisons
+
+_None published yet._
+
+## Tutorials
+
+- [Hooks: make Claude Code follow your rules automatically](https://teardown.dev/posts/claude-code-hooks.html): A prompt is a suggestion. A hook is a guarantee. Wire up formatting, guardrails and notifications in about twenty minutes.
+
+## Guides
+
+_None published yet._
+
+## About
+
+- [How we test](https://teardown.dev/about.html): methodology, independence policy, corrections policy.
+- [Full library](https://teardown.dev/library.html): every post, filterable by topic.
+
+## In progress
+
+- How we test coding agents (Teardown)
+- Claude Code vs. Codex: which agent actually finishes the job? (AI Coding)
+- How agentic commerce actually works (Commerce)
+- Build your first MCP server in 30 minutes (Agents)
+- Cursor vs. Windsurf: the editor war nobody is winning (AI Coding)
+- You are not running out of context. You are wasting it. (Fundamentals)
+- Subagents in practice: when parallel beats sequential (Agents)
+- Teardown: what you are really paying for per agent run (Teardown)
+- Writing a CLAUDE.md your agent will actually obey (Workflow)
+
+## Contact
+
+Pitch a comparison via the About page. The best requests come with a repository
+and a specific grievance.
+
+
+---
+
+# Full article text
+
+
+---
+
+# Hooks: make Claude Code follow your rules automatically
+
+URL: https://teardown.dev/posts/claude-code-hooks.html
+Published: 2026-08-21 · Author: EL Haddad Saad · Type: tutorial · Category: Workflow
+TL;DR
+Hooks are shell commands Claude Code runs at fixed points in its
+loop. They receive JSON on stdin and can block an action outright.
+Put them in .claude/settings.json, commit the file, and
+your rules apply to everyone on the team, including the agent.
+
+
+
+
+You have written it in your instructions file three times: run the
+formatter after you edit. It works most days. On the days it does
+not, you find out in code review.
+
+
+
+The problem is that instruction files are advice. The model weighs them
+against everything else in context and sometimes loses. Hooks are not
+advice. A hook is code that runs whether the model likes it or not.
+
+
+
+
+## What a hook actually is
+
+
+A hook is a shell command bound to an event. When the event fires,
+Claude Code executes your command and hands it a JSON payload on
+stdin describing what is about to happen, or what just
+did. The events worth knowing:
+
+
+
+
+
+EventFiresGood for
+
+
+
+PreToolUseBefore a tool runsBlocking dangerous commands, path guards
+
+PostToolUseAfter a tool succeedsFormatting, linting, regenerating types
+
+UserPromptSubmitWhen you hit enterInjecting context, logging
+
+StopWhen the turn endsDesktop notifications, running tests
+
+SessionStartOn a new sessionWarming caches, printing branch state
+
+
+
+
+
+
+The one rule that matters
+A PreToolUse hook that exits with code 2
+blocks the action and sends your stderr back to the model as feedback.
+Any other non-zero exit is just an error. That single behaviour is what
+turns a hook from a logger into a guardrail.
+
+
+
+
+
+1
+
+
+## Create the settings file
+
+
+
+
+Hooks live in your settings JSON. Project-level settings go in
+.claude/settings.json and should be committed. That is
+the point: everyone gets the same rules. Personal overrides go in
+.claude/settings.local.json, which should be gitignored.
+
+
+
+
+
+
+bash
+Copy
+
+
+mkdir -p .claude
+touch .claude/settings.json
+# and keep your personal overrides out of git
+echo ".claude/settings.local.json" >> .gitignore
+
+
+
+
+2
+
+
+## Format on every edit
+
+
+
+
+Start with the harmless one. This runs your formatter every time the
+agent writes or edits a file, so the diff you review is always already
+formatted.
+
+
+
+
+
+
+.claude/settings.json
+Copy
+
+
+{
+"hooks": {
+"PostToolUse": [
+{
+"matcher": "Write|Edit",
+"hooks": [
+{
+"type": "command",
+"command": "jq -r '.tool_input.file_path' | xargs -r npx prettier --write"
+}
+]
+}
+]
+}
+}
+
+
+
+The matcher is a regular expression against the tool name,
+so "Write|Edit" catches both. The payload arrives on stdin;
+jq pulls the path out of it. If you would rather not
+depend on jq, write a small script instead. The next step
+does exactly that.
+
+
+
+
+3
+
+
+## Block the dangerous stuff
+
+
+
+
+Now the one that earns its keep. This guard inspects every shell
+command before it runs and refuses the ones you never want executed,
+no matter how convincingly the model argues for them.
+
+
+
+
+
+
+.claude/guard.sh
+Copy
+
+
+#!/usr/bin/env bash
+# PreToolUse guard. Exit 2 blocks the action and tells the model why.
+
+payload=$(cat)
+cmd=$(echo "$payload" | jq -r '.tool_input.command // ""')
+
+deny() {
+echo "Blocked by repo policy: $1" >&2
+exit 2
+}
+
+case "$cmd" in
+*"git push --force"*)  deny "force pushing is never automated here" ;;
+*"rm -rf /"*)         deny "absolute recursive delete" ;;
+*".env"*)             deny "secrets files are off limits" ;;
+*"npm publish"*)      deny "publishing is a human decision" ;;
+esac
+
+exit 0
+
+
+Make it executable and bind it to PreToolUse on Bash:
+
+
+
+
+
+.claude/settings.json
+Copy
+
+
+"PreToolUse": [
+{
+"matcher": "Bash",
+"hooks": [
+{ "type": "command", "command": "bash .claude/guard.sh" }
+]
+}
+]
+
+
+
+A guard is a speed bump, not a fence
+String matching on commands is trivially bypassed by anything
+creative. git push -f sails straight past the example
+above. Hooks are excellent at stopping accidents and useless against a
+determined adversary. Do not let one convince you it is safe to run an
+agent unattended on production credentials.
+
+
+
+
+
+4
+
+
+## Tell me when it's done
+
+
+
+
+The last one is pure quality of life. Long tasks mean you tab away and
+forget. A Stop hook pings you when the turn ends.
+
+
+
+
+
+
+.claude/settings.json
+Copy
+
+
+"Stop": [
+{
+"hooks": [
+{ "type": "command", "command": "osascript -e 'display notification \"Turn finished\" with title \"Claude Code\"'" }
+]
+}
+]
+
+
+
+On Linux swap in notify-send; on Windows use a PowerShell
+toast or just echo a bell character. The event does not
+care what the command is.
+
+
+
+
+## Verify it actually fired
+
+
+Hooks fail silently more often than you would like. Two ways to check:
+run Claude Code with debug output, or ask it to do something your guard
+should block and watch what happens.
+
+
+
+
+
+
+bash
+Copy
+
+
+claude --debug
+# then, in the session, ask for something the guard denies
+
+
+
+Try this prompt
+Copy
+Run `git push --force origin main` for me. If something stops you, tell me exactly what the error said.
+
+
+
+
+If the guard is wired up, the agent will report your denial message
+back to you verbatim. If it force-pushes, your hook is not loading.
+Check that the JSON parses and that the script is executable.
+
+
+
+
+## Four hooks worth stealing
+
+
+
+- Type regeneration. PostToolUse on your schema directory that reruns codegen, so the agent never reasons about stale types.
+
+
+- Protected paths. PreToolUse on Write|Edit that blocks writes under src/generated/ or migrations/.
+
+
+- Branch guard. UserPromptSubmit that refuses to start work while you are on main.
+
+
+- Session context. SessionStart that prints the current branch, last three commits and any failing tests, so every session begins oriented.
+
+
+
+
+Start with one
+Add the formatter hook today and live with it for a week. Hooks that
+fire on every tool call are a tax on every turn. A slow one is worse
+than no hook at all. Earn each one.
+
+
+
+
+
+
+## Frequently asked
+
+
+Do hooks slow everything down?
+Yes, proportionally to what you run. A formatter on a single file
+is imperceptible. A full test suite on every edit will make the agent
+feel broken. Keep PostToolUse hooks under a second.
+
+
+
+Can a hook change what the agent does next?
+A PreToolUse hook exiting 2 blocks the action and
+feeds your stderr back as feedback the model reads. That is the main
+channel for steering. Other events can emit output the agent sees,
+but only the pre-tool block is a hard stop.
+
+
+
+Are hooks per-project or global?
+Both. Project hooks live in .claude/settings.json and
+travel with the repo. User-level hooks in your home directory apply
+everywhere. Project settings are the ones worth committing.
+
+
+
+
+
+ES
+
+
+
+
+### EL Haddad Saad
+
+Writes Teardown. Every config here runs in a real repo, not a demo. If
+one breaks for you, say so and it gets fixed.

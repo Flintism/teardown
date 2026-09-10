@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Teardown: tools, taken apart</title>
+    <link>https://teardown.dev/</link>
+    <description>Hands-on tutorials and head-to-head comparisons of AI coding tools, agents and the workflows around them. Independent, unsponsored, with the test methodology published.</description>
+    <language>en</language>
+    <atom:link href="https://teardown.dev/feed.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Thu, 10 Sep 2026 04:21:45 +0000</lastBuildDate>
+    <item>
+      <title>Hooks: make Claude Code follow your rules automatically</title>
+      <link>https://teardown.dev/posts/claude-code-hooks.html</link>
+      <guid isPermaLink="true">https://teardown.dev/posts/claude-code-hooks.html</guid>
+      <description>A prompt is a suggestion. A hook is a guarantee. Wire up formatting, guardrails and notifications in about twenty minutes.</description>
+      <category>Workflow</category>
+      <dc:creator>EL Haddad Saad</dc:creator>
+      <pubDate>Fri, 21 Aug 2026 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>

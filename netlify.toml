@@ -1,0 +1,37 @@
+# Netlify deploy config.
+#
+# Set TEARDOWN_SITE_URL in Site settings -> Environment variables to your real
+# domain before the first production build. Every canonical tag, sitemap entry,
+# social card URL and llms.txt link is generated from it.
+
+[build]
+  command = "python build.py"
+  publish = "."
+
+[build.environment]
+  PYTHON_VERSION = "3.12"
+
+# Deploy previews should never be indexed, and they should not claim the
+# production canonical either.
+[context.deploy-preview.build]
+  command = "python build.py"
+
+# Matches ALLOW_SEARCH_INDEXING = False in build.py. An HTTP header beats the
+# meta tag, so leaving this as "all" would have re-opened the site at the edge
+# while every page said noindex. Flip both together, or neither.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[context.deploy-preview.headers]]
+  for = "/*"
+  [context.deploy-preview.headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+# Serve /posts/x for /posts/x.html, without breaking the .html URLs that are
+# already in the sitemap.
+[[redirects]]
+  from = "/posts/:slug"
+  to = "/posts/:slug.html"
+  status = 200
