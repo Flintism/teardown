@@ -73,7 +73,8 @@ GA4_MEASUREMENT_ID = os.environ.get("TEARDOWN_GA4_ID", "G-P1H6QY7FMH")
 # permanently; they prove ownership and do nothing else.
 GOOGLE_SITE_VERIFICATION = os.environ.get("TEARDOWN_GSC_TOKEN",
                                           "hC4orF5p23moS7RxdLPBoMiaZysE97slM8TQr-gPChs")
-BING_SITE_VERIFICATION   = os.environ.get("TEARDOWN_BING_TOKEN", "")
+BING_SITE_VERIFICATION   = os.environ.get("TEARDOWN_BING_TOKEN",
+                                          "460EBA2C5236E7AF67AE85529753F8CB")
 LOCALE      = "en_US"
 
 ROOT = Path(__file__).parent
