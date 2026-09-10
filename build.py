@@ -66,12 +66,13 @@ ALLOW_SEARCH_INDEXING = False
 # ---- Third-party integrations. Every one is off until you paste an ID. ----
 # GA4 measurement ID, e.g. "G-XXXXXXXXXX". Empty = no script, no cookies,
 # no consent banner.
-GA4_MEASUREMENT_ID = os.environ.get("TEARDOWN_GA4_ID", "")
+GA4_MEASUREMENT_ID = os.environ.get("TEARDOWN_GA4_ID", "G-P1H6QY7FMH")
 
 # Search Console and Bing verification tokens (the meta-tag method). Paste the
 # content="..." value only, not the whole tag. Both are safe to leave in place
 # permanently; they prove ownership and do nothing else.
-GOOGLE_SITE_VERIFICATION = os.environ.get("TEARDOWN_GSC_TOKEN", "")
+GOOGLE_SITE_VERIFICATION = os.environ.get("TEARDOWN_GSC_TOKEN",
+                                          "hC4orF5p23moS7RxdLPBoMiaZysE97slM8TQr-gPChs")
 BING_SITE_VERIFICATION   = os.environ.get("TEARDOWN_BING_TOKEN", "")
 LOCALE      = "en_US"
 
