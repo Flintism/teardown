@@ -7,7 +7,16 @@
     <description>Hands-on tutorials and head-to-head comparisons of AI coding tools, agents and the workflows around them. Independent, unsponsored, with the test methodology published.</description>
     <language>en</language>
     <atom:link href="https://flintism.github.io/teardown/feed.xml" rel="self" type="application/rss+xml"/>
-    <lastBuildDate>Fri, 11 Sep 2026 17:57:43 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 11 Sep 2026 18:41:44 +0000</lastBuildDate>
+    <item>
+      <title>Seven AI app builders, sorted by what you own at the end</title>
+      <link>https://flintism.github.io/teardown/posts/ai-app-builders-ownership.html</link>
+      <guid isPermaLink="true">https://flintism.github.io/teardown/posts/ai-app-builders-ownership.html</guid>
+      <description>Five of these seven builders will hand you the code. Whether it runs anywhere else depends on the database, the logins and the secrets.</description>
+      <category>App Builders</category>
+      <dc:creator>EL Haddad Saad</dc:creator>
+      <pubDate>Fri, 11 Sep 2026 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Hooks: make Claude Code follow your rules automatically</title>
       <link>https://flintism.github.io/teardown/posts/claude-code-hooks.html</link>

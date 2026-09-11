@@ -103,8 +103,8 @@ def run(cfg, td, published, by_date, post_url, root):
     inject(root / "about.html", s.head(
         title=f"How we test, and who pays for it | {cfg['SITE_NAME']}",
         desc=("Our testing methodology, independence policy and corrections "
-              "policy. No sponsored posts, no affiliate links, and every "
-              "comparison publishes its seed repo and task prompts."),
+              "policy. No sponsored posts, affiliate links disclosed at the "
+              "top of the page, and every comparison publishes its method."),
         canonical=f"{base}/about.html",
         image=default_img,
         kind="profile",

@@ -23,7 +23,7 @@ _None published yet._
 
 ## Guides
 
-_None published yet._
+- [Seven AI app builders, sorted by what you own at the end](https://flintism.github.io/teardown/posts/ai-app-builders-ownership.html): Five of these seven builders will hand you the code. Whether it runs anywhere else depends on the database, the logins and the secrets.
 
 ## About
 

@@ -917,3 +917,19 @@ html.pre-filter [data-grid][data-filterable] { min-height: 40vh; }
   .consent__actions { margin-left: 0; }
   .consent__btn { flex: 1; }
 }
+
+/* ---------- 23. Evidence screenshots ---------- */
+/* Documentation screenshots that back a claim. The border keeps a dark
+   screenshot from bleeding into a dark page; the caption carries the source
+   and the date it was captured. */
+.prose figure { margin: 1.8em 0; }
+.prose figure img {
+  width: 100%; height: auto;
+  border-radius: var(--r); border: 1px solid var(--line);
+  background: var(--surface-2);
+}
+.prose figcaption {
+  margin-top: .7em;
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: .02em;
+  line-height: 1.5; color: var(--fg-faint);
+}

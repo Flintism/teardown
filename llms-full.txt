@@ -23,7 +23,7 @@ _None published yet._
 
 ## Guides
 
-_None published yet._
+- [Seven AI app builders, sorted by what you own at the end](https://flintism.github.io/teardown/posts/ai-app-builders-ownership.html): Five of these seven builders will hand you the code. Whether it runs anywhere else depends on the database, the logins and the secrets.
 
 ## About
 
@@ -51,6 +51,339 @@ and a specific grievance.
 ---
 
 # Full article text
+
+
+---
+
+# Seven AI app builders, sorted by what you own at the end
+
+URL: https://flintism.github.io/teardown/posts/ai-app-builders-ownership.html
+Published: 2026-09-11 · Author: EL Haddad Saad · Type: guide · Category: App Builders
+TL;DR
+The code is the easy part to take with you. Before you build
+anything you might move, check who holds the database, the user
+accounts and the secrets. v0 puts the database in your own Vercel
+account, and Bolt.new lets you claim it into your own Supabase.
+Lovable migrates your schema for you, but not the rows, the logins
+or the keys. Bubble and Glide let you export data, not the app.
+
+
+
+
+Your export finished. The zip sits on your desktop. You run
+npm install, then npm run dev, and the app
+dies on the first request, because the database it wants belongs to
+somebody else.
+
+
+
+Five of the seven builders below will give you the code. That tells
+you close to nothing about whether you can leave.
+
+
+
+
+## Test yours in 60 seconds
+
+Open your builder and look for your database connection string.
+
+
+Found one? Paste it into a Postgres client on your laptop. If your
+tables show up, you own your data.
+
+
+
+No connection string anywhere in the interface? You are renting your
+data, and the cost of leaving grows with every table you add.
+
+
+
+Run that check before you read the table. It takes the shine off the
+export button, which is the point.
+
+
+
+
+## Four layers, and you only hear about one
+
+Code. The files. The layer every vendor advertises,
+and the easiest one to get out.
+
+Data. Your database, with its schema, relations and
+types intact. A CSV export is a photograph of your rows with the
+structure trimmed off.
+
+Auth. Who your users are and how they sign in.
+Usually rebuilt on a migration, and passwords rarely come with it.
+
+Deploy. Where the app runs, and whether it can run
+anywhere else.
+
+
+Give a builder your weekend and it hands back some subset of those
+four. The table sorts by how big that subset is.
+
+
+
+
+## The table
+
+Seven builders, checked against their own documentation in
+September 2026.
+
+
+
+
+BuilderCodeDataAuthDeployWhat you keep
+
+
+
+v0ZIP download and two-way GitHub syncNeon, Supabase or Upstash through the Vercel Marketplace, billed to your Vercel accountNot documented by v0Vercel by default; exported code runs elsewhereCode, and a database on an account you pay for directly
+
+Bolt.newZIP and two-way GitHub syncBolt database by default, claimable into a Supabase organization you ownSupabase Auth, moves with a claimed databaseBolt hosting by default, Netlify documentedCode, plus database and auth once you claim
+
+LovableTwo-way GitHub sync on every plan, ZIP download on paid plansLovable Cloud, with Supabase underneath, by defaultLovable's by defaultPortable with workCode, and a schema Lovable migrates for you. Rows, logins and secrets by hand
+
+ReplitZIP and GitHub syncSeparate development and production databases; production exports, neither is exposed publiclyReplit Auth by default, Clerk availablePortable with workCode and production data. Large projects need a shell workaround
+
+Base44Two-way GitHub sync from the Builder planCSV one table at a time; no connection string, but SDK accessBase44'sBase44 by default; the frontend can moveCode on a paid plan. Data through CSV or the SDK
+
+BubbleNoneOne data type at a time as CSV, JSON or NDJSONBubble'sBubble'sYour data. There is no code to take
+
+GlideNoneCSV per table; empty and computed link columns left outGlide'sGlide'sYour rows, minus some computed columns
+
+
+
+
+
+Sources:
+v0 ·
+Bolt.new ·
+Lovable ·
+Replit ·
+Base44 ·
+Bubble ·
+Glide.
+Glide's lack of code export rests on a community answer, not an official page.
+
+
+
+## Three traps to check before you build
+
+
+
+### Bolt.new: connect and claim are different procedures
+
+
+Connect points your project at a Supabase project you
+already have. Claim moves an existing Bolt database
+into a Supabase organization you own.
+
+
+
+
+Bolt Help Center, Supabase page, September 2026. The two procedures sit one heading apart.
+
+
+
+The names are close and the steps sit on the same page. Bolt's own
+advice is that a Bolt database is simpler for most projects, and that
+you claim when you need external tools, SQL editing or advanced
+monitoring. That advice is fine for a prototype. For anything you
+might take elsewhere, decide on day one, while the database is empty
+and moving it costs nothing.
+
+
+
+
+### Lovable: the code and schema move, the rest does not
+
+
+Lovable says it plainly: while you build, your project code is stored
+and managed inside the Lovable platform. Two-way GitHub sync keeps a copy
+in your own repository on every plan, and that part really is one step.
+
+
+
+
+Lovable docs, GitHub sync page, September 2026.
+
+
+
+The database is where it gets slower. There is no one-click move from
+Lovable Cloud to your own Supabase project, but you don't rebuild the
+schema by hand either. Lovable's guide to hosting
+elsewhere moves the database schema and storage buckets automatically,
+through SQL migrations. Everything else on its list is manual: table
+contents, auth providers, environment variables and secrets, and
+storage files.
+
+
+
+
+Lovable docs, "Host outside Lovable", September 2026. Four rows marked Manual, and user accounts marked Manual, partial.
+
+
+
+The last row is the expensive one. You can export user data, but not
+passwords, so every user resets their password on the day you move.
+Lovable's own recommendation is to plan the migration before you
+onboard real users.
+
+
+
+
+### Replit: know which database holds your real data
+
+
+On Replit's current setup, each app gets a development database, and
+publishing creates a separate production database. The production data
+can be exported. Neither database is exposed publicly: Replit's own
+table says the database is only accessible from within your app.
+
+
+
+
+Replit docs, "Development and production", September 2026. Connection security row: only accessible from within your app.
+
+
+
+That is good for security and awkward for leaving. You can't point an
+outside tool at the database and copy it, so check tonight which of
+the two your app actually writes to, and how you would pull that data
+out. Don't leave that question for the day you move.
+
+
+
+
+## Secrets mostly stay behind
+
+
+API keys, tokens and connection strings live in the builder's secret
+store, not in your code. Moving your code doesn't move them. The repo
+can look complete and still authenticate with nothing.
+
+
+
+The builders document this unevenly. Lovable lists environment
+variables and secrets as manual work when you host elsewhere, along
+with auth providers, and user passwords don't come out at all. A
+Replit remix keeps the names of its secrets with the values left
+blank. The public Supabase keys in a Lovable repository are the
+exception: those are meant to ship with the frontend.
+
+
+
+Budget a full day after any export to recreate database credentials,
+rewire auth providers and reissue API keys.
+
+
+
+
+## Your first hour on any of these
+
+
+
+- Connect GitHub before your second prompt. Your
+code starts existing somewhere the vendor doesn't control. On Lovable
+the path is Project settings, then Git, then GitHub.
+
+
+- Bring your own database if the builder allows it:
+your own Supabase or Neon project, not the managed one.
+
+
+- Save every secret as you create it in your own
+password manager, because the export leaves them behind.
+
+
+- Deploy once to hosting that isn't the builder's,
+while the app is small enough that the errors are still easy to read.
+
+
+
+
+
+Lovable docs, September 2026. Connecting creates the repository and starts two-way sync automatically.
+
+
+
+Skipping these steps doesn't save you the work. It moves the work to a
+worse day, when the app has more tables.
+
+
+
+
+## Picking one
+
+
+You want the database on an account you control and don't
+mind wiring your own backend? v0 and Bolt.new both allow it. On Bolt, claim the
+database on day one.
+
+
+
+You want the shortest path from prompt to working app?
+Lovable gets you
+there fastest, and its schema migrates for you when you leave. Plan the
+user migration before real people sign up.
+
+
+
+Building something internal, short-lived, or that will never
+move? Bubble and Glide are fine. Lock-in only costs you on the
+way out, and you aren't going out.
+
+
+
+
+
+## Frequently asked
+
+
+Can you move a Lovable app off Lovable?
+Yes. Code leaves through two-way GitHub sync. Lovable's hosting
+guide migrates the database schema and storage buckets through SQL
+migrations. Table contents, auth providers, secrets and storage
+files move by hand, and passwords can't be exported, so users reset
+them after the move.
+
+
+
+What is the difference between connecting and claiming a database in Bolt.new?
+Connecting points your Bolt project at a Supabase project you
+already own. Claiming moves an existing Bolt database into a Supabase organization you own.
+Bolt documents both on the same help page as separate procedures.
+
+
+
+Can an outside tool reach a Replit app's database?
+Not directly. Replit's documentation says its current database is
+only accessible from within your app and never exposed publicly.
+Publishing creates a separate production database, and that one can
+be exported, so check which
+one holds your data before you plan an exit.
+
+
+
+
+
+
+Checked against each builder's documentation in September 2026.
+These tools change plan gating and export behaviour often. If a row here
+is out of date, it's wrong, and this
+is how corrections work.
+
+
+ES
+
+
+
+
+### EL Haddad Saad
+
+Writes Teardown. Every claim here points at the builder's own
+documentation. If one has changed, say so and it gets fixed.
 
 
 ---

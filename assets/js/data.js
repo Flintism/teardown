@@ -32,7 +32,8 @@ const CATEGORIES = {
   'Workflow':    { color: '#22D3EE', blob1: '#22D3EE', blob2: '#C6F135' },
   'Commerce':    { color: '#FFB020', blob1: '#FFB020', blob2: '#FF5B38' },
   'Fundamentals':{ color: '#C6F135', blob1: '#C6F135', blob2: '#22D3EE' },
-  'Teardown':    { color: '#F43F5E', blob1: '#F43F5E', blob2: '#8B5CF6' }
+  'Teardown':    { color: '#F43F5E', blob1: '#F43F5E', blob2: '#8B5CF6' },
+  'App Builders':{ color: '#FFB020', blob1: '#FFB020', blob2: '#8B5CF6' }
 };
 
 /* One author record, referenced by every post. Swap the photo path here and
@@ -44,6 +45,21 @@ const AUTHOR = {
 };
 
 const POSTS = [
+  {
+    slug: 'ai-app-builders-ownership',
+    type: 'guide',
+    title: 'Seven AI app builders, sorted by what you own at the end',
+    posterH: 'Who owns the code? Mostly not you.',
+    deck: 'Five of these seven builders will hand you the code. Whether it runs anywhere else depends on the database, the logins and the secrets.',
+    category: 'App Builders',
+    date: '2026-09-11',
+    mins: 8,
+    author: AUTHOR,
+    tags: ['lovable', 'bolt.new', 'v0', 'replit', 'base44', 'bubble', 'glide',
+           'ai app builder', 'vibe coding', 'export', 'lock-in', 'supabase', 'github'],
+    featured: true
+    // affiliate: true once the Lovable (Impact) link replaces the plain lovable.dev link
+  },
   {
     slug: 'how-we-test-coding-agents',
     type: 'guide',

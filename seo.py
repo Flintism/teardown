@@ -38,6 +38,13 @@ ENTITIES = {
     "Cursor": "https://cursor.com",
     "Windsurf": "https://windsurf.com",
     "Model Context Protocol": "https://modelcontextprotocol.io",
+    "Lovable": "https://lovable.dev",
+    "Bolt.new": "https://bolt.new",
+    "Replit": "https://replit.com",
+    "v0": "https://v0.app",
+    "Base44": "https://base44.com",
+    "Bubble": "https://bubble.io",
+    "Glide": "https://www.glideapps.com",
 }
 
 
@@ -151,7 +158,10 @@ class Seo:
         if post.get("vs"):
             names += [post["vs"]["a"]["name"], post["vs"]["b"]["name"]]
         hay = (post["title"] + " " + post["deck"]).lower()
-        names += [n for n in ENTITIES if n.lower() in hay]
+        # Tags are an exact list, so match them whole: a roundup names its
+        # tools in tags, not always in the headline.
+        tags = {t.lower() for t in post.get("tags", [])}
+        names += [n for n in ENTITIES if n.lower() in hay or n.lower() in tags]
         seen, out = set(), []
         for n in names:
             if n in seen:
