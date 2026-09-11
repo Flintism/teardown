@@ -12,3 +12,7 @@ audit/reports/
 # Playwright
 test-results/
 playwright-report/
+
+# Product and keyword research. Kept local: the repo is public and Pages
+# publishes everything in it.
+research/

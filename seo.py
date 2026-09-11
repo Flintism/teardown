@@ -59,7 +59,8 @@ def xml_esc(s):
 
 class Seo:
     def __init__(self, base, site_name, site_tag, site_desc, author, locale,
-                 allow_indexing=True, google_verify='', bing_verify=''):
+                 allow_indexing=True, google_verify='', bing_verify='',
+                 impact_verify=''):
         self.base = base.rstrip("/")
         self.name = site_name
         self.tag = site_tag
@@ -69,6 +70,7 @@ class Seo:
         self.allow_indexing = allow_indexing
         self.google_verify = google_verify
         self.bing_verify = bing_verify
+        self.impact_verify = impact_verify
         self.person_id = f"{self.base}/about.html#person"
         self.org_id = f"{self.base}/#organization"
         self.site_id = f"{self.base}/#website"
@@ -254,6 +256,10 @@ class Seo:
         if self.bing_verify:
             verify += (nl + '<meta name="msvalidate.01" content="'
                        + xml_esc(self.bing_verify) + '">')
+        # Impact reads value="...", not content="...", so keep its format.
+        if self.impact_verify:
+            verify += (nl + '<meta name="impact-site-verification" value="'
+                       + xml_esc(self.impact_verify) + '">')
 
         art = ""
         if published:

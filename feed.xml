@@ -7,7 +7,7 @@
     <description>Hands-on tutorials and head-to-head comparisons of AI coding tools, agents and the workflows around them. Independent, unsponsored, with the test methodology published.</description>
     <language>en</language>
     <atom:link href="https://flintism.github.io/teardown/feed.xml" rel="self" type="application/rss+xml"/>
-    <lastBuildDate>Thu, 10 Sep 2026 18:22:36 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 11 Sep 2026 17:57:43 +0000</lastBuildDate>
     <item>
       <title>Hooks: make Claude Code follow your rules automatically</title>
       <link>https://flintism.github.io/teardown/posts/claude-code-hooks.html</link>

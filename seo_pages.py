@@ -52,7 +52,8 @@ def run(cfg, td, published, by_date, post_url, root):
             cfg["SITE_DESC"], cfg["AUTHOR_NAME"], cfg["LOCALE"],
             allow_indexing=allow,
             google_verify=cfg.get('GOOGLE_SITE_VERIFICATION', ''),
-            bing_verify=cfg.get('BING_SITE_VERIFICATION', ''))
+            bing_verify=cfg.get('BING_SITE_VERIFICATION', ''),
+            impact_verify=cfg.get('IMPACT_SITE_VERIFICATION', ''))
     base = s.base
     posts = by_date(published(td["POSTS"]))
     default_img = f"{base}/assets/og/default.png"

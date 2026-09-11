@@ -75,6 +75,10 @@ GOOGLE_SITE_VERIFICATION = os.environ.get("TEARDOWN_GSC_TOKEN",
                                           "hC4orF5p23moS7RxdLPBoMiaZysE97slM8TQr-gPChs")
 BING_SITE_VERIFICATION   = os.environ.get("TEARDOWN_BING_TOKEN",
                                           "460EBA2C5236E7AF67AE85529753F8CB")
+# Impact.com (affiliate network) site verification. Impact's tag uses
+# value="..." rather than content="...", so paste the value only.
+IMPACT_SITE_VERIFICATION = os.environ.get("TEARDOWN_IMPACT_TOKEN",
+                                          "fd0d2e95-5526-4ba9-8e4f-67512408847e")
 LOCALE      = "en_US"
 
 ROOT = Path(__file__).parent
@@ -616,7 +620,8 @@ def main():
                SITE_DESC=SITE_DESC, AUTHOR_NAME=AUTHOR_NAME, LOCALE=LOCALE,
                ALLOW_SEARCH_INDEXING=ALLOW_SEARCH_INDEXING,
                GOOGLE_SITE_VERIFICATION=GOOGLE_SITE_VERIFICATION,
-               BING_SITE_VERIFICATION=BING_SITE_VERIFICATION)
+               BING_SITE_VERIFICATION=BING_SITE_VERIFICATION,
+               IMPACT_SITE_VERIFICATION=IMPACT_SITE_VERIFICATION)
     pages = seo_pages.run(cfg, td, published, by_date, post_url, ROOT)
     print(f"  seo + geo     {pages} pages: canonical, OG, Twitter, JSON-LD")
 
@@ -627,7 +632,8 @@ def main():
         print("  analytics     off (set GA4_MEASUREMENT_ID to enable)")
 
     verified = [n for n, v in (("Google", GOOGLE_SITE_VERIFICATION),
-                               ("Bing", BING_SITE_VERIFICATION)) if v]
+                               ("Bing", BING_SITE_VERIFICATION),
+                               ("Impact", IMPACT_SITE_VERIFICATION)) if v]
     print(f"  verification  {', '.join(verified) if verified else 'none configured'}")
 
     problems = validate.run(ROOT, BASE, td, published, post_url,
