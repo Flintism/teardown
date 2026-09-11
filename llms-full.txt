@@ -138,19 +138,19 @@ BuilderCodeDataAuthDeployWhat you keep
 
 
 
-v0ZIP download and two-way GitHub syncNeon, Supabase or Upstash through the Vercel Marketplace, billed to your Vercel accountNot documented by v0Vercel by default; exported code runs elsewhereCode, and a database on an account you pay for directly
+v0ZIP, GitHub syncNeon, Supabase or Upstash via Vercel MarketplaceNot documentedVercel; code runs elsewhereCode, plus a database you pay for directly
 
-Bolt.newZIP and two-way GitHub syncBolt database by default, claimable into a Supabase organization you ownSupabase Auth, moves with a claimed databaseBolt hosting by default, Netlify documentedCode, plus database and auth once you claim
+Bolt.newZIP, GitHub syncBolt database; claimable into your SupabaseSupabase Auth, moves on claimBolt hosting; Netlify documentedCode, plus database and auth once claimed
 
-LovableTwo-way GitHub sync on every plan, ZIP download on paid plansLovable Cloud, with Supabase underneath, by defaultLovable's by defaultPortable with workCode, and a schema Lovable migrates for you. Rows, logins and secrets by hand
+LovableGitHub sync on all plans; ZIP on paidLovable Cloud (Supabase)Lovable'sPortable with workCode and schema; rows, logins, secrets by hand
 
-ReplitZIP and GitHub syncSeparate development and production databases; production exports, neither is exposed publiclyReplit Auth by default, Clerk availablePortable with workCode and production data. Large projects need a shell workaround
+ReplitZIP, GitHub syncDev and prod databases; prod exportsReplit Auth; Clerk optionalPortable with workCode and production data
 
-Base44Two-way GitHub sync from the Builder planCSV one table at a time; no connection string, but SDK accessBase44'sBase44 by default; the frontend can moveCode on a paid plan. Data through CSV or the SDK
+Base44GitHub sync, Builder plan and upCSV per table; SDK accessBase44'sBase44; frontend can moveCode on a paid plan; data via CSV or SDK
 
-BubbleNoneOne data type at a time as CSV, JSON or NDJSONBubble'sBubble'sYour data. There is no code to take
+BubbleNoneCSV, JSON or NDJSON per data typeBubble'sBubble'sYour data, no code
 
-GlideNoneCSV per table; empty and computed link columns left outGlide'sGlide'sYour rows, minus some computed columns
+GlideNoneCSV per table, some columns droppedGlide'sGlide'sYour rows, no code
 
 
 

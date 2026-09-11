@@ -500,13 +500,13 @@
               <tr><th>Builder</th><th>Code</th><th>Data</th><th>Auth</th><th>Deploy</th><th>What you keep</th></tr>
             </thead>
             <tbody>
-              <tr><td>v0</td><td>ZIP download and two-way GitHub sync</td><td>Neon, Supabase or Upstash through the Vercel Marketplace, billed to your Vercel account</td><td>Not documented by v0</td><td>Vercel by default; exported code runs elsewhere</td><td>Code, and a database on an account you pay for directly</td></tr>
-              <tr><td>Bolt.new</td><td>ZIP and two-way GitHub sync</td><td>Bolt database by default, claimable into a Supabase organization you own</td><td>Supabase Auth, moves with a claimed database</td><td>Bolt hosting by default, Netlify documented</td><td>Code, plus database and auth once you claim</td></tr>
-              <tr><td>Lovable</td><td>Two-way GitHub sync on every plan, ZIP download on paid plans</td><td>Lovable Cloud, with Supabase underneath, by default</td><td>Lovable's by default</td><td>Portable with work</td><td>Code, and a schema Lovable migrates for you. Rows, logins and secrets by hand</td></tr>
-              <tr><td>Replit</td><td>ZIP and GitHub sync</td><td>Separate development and production databases; production exports, neither is exposed publicly</td><td>Replit Auth by default, Clerk available</td><td>Portable with work</td><td>Code and production data. Large projects need a shell workaround</td></tr>
-              <tr><td>Base44</td><td>Two-way GitHub sync from the Builder plan</td><td>CSV one table at a time; no connection string, but SDK access</td><td>Base44's</td><td>Base44 by default; the frontend can move</td><td>Code on a paid plan. Data through CSV or the SDK</td></tr>
-              <tr><td>Bubble</td><td>None</td><td>One data type at a time as CSV, JSON or NDJSON</td><td>Bubble's</td><td>Bubble's</td><td>Your data. There is no code to take</td></tr>
-              <tr><td>Glide</td><td>None</td><td>CSV per table; empty and computed link columns left out</td><td>Glide's</td><td>Glide's</td><td>Your rows, minus some computed columns</td></tr>
+              <tr><td>v0</td><td>ZIP, GitHub sync</td><td>Neon, Supabase or Upstash via Vercel Marketplace</td><td>Not documented</td><td>Vercel; code runs elsewhere</td><td>Code, plus a database you pay for directly</td></tr>
+              <tr><td>Bolt.new</td><td>ZIP, GitHub sync</td><td>Bolt database; claimable into your Supabase</td><td>Supabase Auth, moves on claim</td><td>Bolt hosting; Netlify documented</td><td>Code, plus database and auth once claimed</td></tr>
+              <tr><td>Lovable</td><td>GitHub sync on all plans; ZIP on paid</td><td>Lovable Cloud (Supabase)</td><td>Lovable's</td><td>Portable with work</td><td>Code and schema; rows, logins, secrets by hand</td></tr>
+              <tr><td>Replit</td><td>ZIP, GitHub sync</td><td>Dev and prod databases; prod exports</td><td>Replit Auth; Clerk optional</td><td>Portable with work</td><td>Code and production data</td></tr>
+              <tr><td>Base44</td><td>GitHub sync, Builder plan and up</td><td>CSV per table; SDK access</td><td>Base44's</td><td>Base44; frontend can move</td><td>Code on a paid plan; data via CSV or SDK</td></tr>
+              <tr><td>Bubble</td><td>None</td><td>CSV, JSON or NDJSON per data type</td><td>Bubble's</td><td>Bubble's</td><td>Your data, no code</td></tr>
+              <tr><td>Glide</td><td>None</td><td>CSV per table, some columns dropped</td><td>Glide's</td><td>Glide's</td><td>Your rows, no code</td></tr>
             </tbody>
           </table>
         </div>
