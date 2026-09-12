@@ -734,7 +734,7 @@ PowerShell
 Copy
 
 
-# PowerShell or CMD installer
+# PowerShell or Command Prompt installer
 Remove-Item -Path "$env:USERPROFILE\.local\bin\claude.exe" -Force
 Remove-Item -Path "$env:USERPROFILE\.local\share\claude" -Recurse -Force
 
