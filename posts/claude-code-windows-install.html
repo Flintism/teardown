@@ -216,7 +216,7 @@
           "name": "Should I install Claude Code with npm on Windows?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "There's no need. The PowerShell installer puts the same program on your machine without Node.js, and it updates itself. npm installs need Node.js 22 or later and can hit PowerShell's script policy."
+            "text": "There's no need. The PowerShell installer puts the same program on your machine without Node.js, and it updates itself. The npm package asks for Node.js 22 or later, and on Windows its launcher scripts can be blocked by PowerShell's script policy."
           }
         }
       ]
@@ -418,9 +418,10 @@
         </p>
 
         <p>
-          Every command here comes from Anthropic's own documentation, checked in
-          September 2026. The error messages were captured on a real Windows 10
-          machine, so you can match them letter for letter.
+          The install commands and fixes follow Anthropic's own documentation,
+          checked in September 2026. The screenshots were captured on a real Windows 10
+          machine, and the other error messages are quoted from those docs, so you can
+          match them letter for letter.
         </p>
 
         <h2 id="before">Before you start</h2>
@@ -457,7 +458,7 @@
             <tbody>
               <tr><td>PowerShell installer</td><td>Almost everyone</td><td>None. It updates itself in the background</td></tr>
               <tr><td>CMD installer</td><td>People who work in Command Prompt</td><td>A different, longer command</td></tr>
-              <tr><td>WinGet</td><td>People who manage apps with WinGet</td><td>Doesn't update itself</td></tr>
+              <tr><td>WinGet</td><td>People who manage apps with WinGet</td><td>Manual updates by default</td></tr>
               <tr><td>WSL 2</td><td>Linux toolchains, or sandboxed commands</td><td>Slow search on files under <code>/mnt/c</code></td></tr>
               <tr><td>Desktop app</td><td>Not using a terminal at all</td><td>You get the app, not the <code>claude</code> command</td></tr>
             </tbody>
@@ -509,8 +510,9 @@
         <div class="note note--warn" data-icon="⚠️">
           <strong>WinGet won't update Claude Code for you</strong>
           <p>The PowerShell and CMD installers keep Claude Code current on their own.
-          A WinGet install stays on the version you installed until you run
-          <code>winget upgrade Anthropic.ClaudeCode</code>.</p>
+          A WinGet install stays on the version you installed until you upgrade it.
+          <a href="#updates">Keeping it updated</a> has the command, and a setting that
+          runs it for you.</p>
         </div>
 
         <!-- STEP 2 -->
@@ -520,10 +522,10 @@
         </div>
 
         <p>
-          Close the window you installed from and open a fresh one. The installer
-          adds Claude Code to your PATH, but a terminal that was already open never
-          sees that change. Skipping this step is the most common reason a
-          perfectly good install looks broken.
+          Close the window you installed from and open a fresh one. A terminal
+          keeps the PATH it had when it opened, so the window you installed from
+          may not find <code>claude</code> even after a good install. Skipping this
+          step is the most common reason a working install looks broken.
         </p>
 
         <div class="code">
@@ -700,7 +702,8 @@ script file, or operable program.</code></pre>
                 <span class="code__name">PowerShell</span>
                 <button class="code__copy" type="button">Copy</button>
               </div>
-<pre tabindex="0"><code>[Environment]::SetEnvironmentVariable('PATH', [Environment]::GetEnvironmentVariable('PATH', 'User') + ";$env:USERPROFILE\.local\bin", 'User')</code></pre>
+<pre tabindex="0"><code>$currentPath = [Environment]::GetEnvironmentVariable('PATH', 'User')
+[Environment]::SetEnvironmentVariable('PATH', "$currentPath;$env:USERPROFILE\.local\bin", 'User')</code></pre>
             </div>
           </li>
         </ol>
@@ -924,8 +927,11 @@ irm https://claude.ai/install.ps1 | iex</code></pre>
 
         <h3 id="err-wsl">cannot execute binary file: Exec format error</h3>
 
-        <p>This one shows up inside WSL. Claude Code's native build doesn't run on
-        WSL 1. From PowerShell, list your distributions and move yours to WSL 2:</p>
+        <p>This one shows up inside WSL. You're on WSL 1 and hitting a known problem
+        with how WSL 1 loads Claude Code's program file
+        (<a href="https://github.com/anthropics/claude-code/issues/38788" rel="noopener">issue #38788</a>).
+        The cleanest fix is moving your distribution to WSL 2. From PowerShell, list
+        your distributions, then convert yours:</p>
 
         <div class="code">
           <div class="code__bar">
@@ -938,16 +944,22 @@ irm https://claude.ai/install.ps1 | iex</code></pre>
 wsl --set-version Ubuntu 2</code></pre>
         </div>
 
-        <p>After converting, open your WSL terminal and run the Linux installer there,
-        not in PowerShell: <code>curl -fsSL https://claude.ai/install.sh | bash</code>.</p>
+        <p>Then run <code>claude</code> again inside WSL. If you haven't installed it
+        there yet, use the Linux installer in your WSL terminal, not in PowerShell:
+        <code>curl -fsSL https://claude.ai/install.sh | bash</code>. If you have to stay
+        on WSL 1, Anthropic documents a
+        <a href="https://code.claude.com/docs/en/troubleshoot-install#exec-format-error-on-wsl1" rel="noopener">workaround</a>
+        that starts Claude Code through the system loader.</p>
 
         <h3 id="err-login">OAuth error or 403 Forbidden after login</h3>
 
         <p>
           Installation worked and signing in didn't. First check the obvious: the
           account you signed in with needs a paid plan, since the free Claude plan
-          doesn't include Claude Code. If the plan is right, start
-          <code>claude</code>, type <code>/logout</code>, and sign in again. For
+          doesn't include Claude Code. If the plan is right, reset the login: type
+          <code>/logout</code> inside Claude Code, close it, then run <code>claude</code>
+          and sign in again. If the browser doesn't open, press <code>c</code> to copy
+          the sign-in link and paste it into your browser yourself. For
           anything past that, Anthropic's
           <a href="https://code.claude.com/docs/en/troubleshoot-install#login-and-authentication" rel="noopener">login
           troubleshooting</a> covers the rarer cases.
@@ -990,6 +1002,11 @@ wsl --set-version Ubuntu 2</code></pre>
 
         <p>That upgrade can fail while Claude Code is running, because Windows locks a
         program that's in use. Close every Claude Code session and try again.</p>
+
+        <p>To have Claude Code run the upgrade for you, set the environment variable
+        <code>CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE</code> to <code>1</code>. It then
+        upgrades in the background when a new version is out and asks you to restart
+        when it's done.</p>
 
         <h2 id="reinstall">Starting clean</h2>
 
@@ -1058,8 +1075,9 @@ npm uninstall -g @anthropic-ai/claude-code</code></pre>
           <details>
             <summary>Should I install Claude Code with npm on Windows?</summary>
             <p>There's no need. The PowerShell installer puts the same program on your
-            machine without Node.js, and it updates itself. npm installs need
-            Node.js 22 or later and can hit PowerShell's script policy.</p>
+            machine without Node.js, and it updates itself. The npm package asks for
+            Node.js 22 or later, and on Windows its launcher scripts can be blocked by
+            PowerShell's script policy.</p>
           </details>
         </div>
 
@@ -1068,8 +1086,9 @@ npm uninstall -g @anthropic-ai/claude-code</code></pre>
         <p><em>Commands checked against Anthropic's
         <a href="https://code.claude.com/docs/en/setup" rel="noopener">setup</a> and
         <a href="https://code.claude.com/docs/en/troubleshoot-install" rel="noopener">install
-        troubleshooting</a> documentation in September 2026. Error messages captured on
-        Windows 10 with Windows PowerShell 5.1. If a command here has stopped
+        troubleshooting</a> documentation in September 2026. Screenshots captured on
+        Windows 10 with Windows PowerShell 5.1; other error messages are quoted from
+        those docs. If a command here has stopped
         working, <a href="../about.html#corrections">tell us and it gets
         fixed</a>.</em></p>
 

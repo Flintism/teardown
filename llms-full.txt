@@ -78,9 +78,10 @@ something on the network got in the way.
 
 
 
-Every command here comes from Anthropic's own documentation, checked in
-September 2026. The error messages were captured on a real Windows 10
-machine, so you can match them letter for letter.
+The install commands and fixes follow Anthropic's own documentation,
+checked in September 2026. The screenshots were captured on a real Windows 10
+machine, and the other error messages are quoted from those docs, so you can
+match them letter for letter.
 
 
 
@@ -131,7 +132,7 @@ PowerShell installerAlmost everyoneNone. It updates itself in the background
 
 CMD installerPeople who work in Command PromptA different, longer command
 
-WinGetPeople who manage apps with WinGetDoesn't update itself
+WinGetPeople who manage apps with WinGetManual updates by default
 
 WSL 2Linux toolchains, or sandboxed commandsSlow search on files under /mnt/c
 
@@ -195,8 +196,9 @@ winget install Anthropic.ClaudeCode
 
 WinGet won't update Claude Code for you
 The PowerShell and CMD installers keep Claude Code current on their own.
-A WinGet install stays on the version you installed until you run
-winget upgrade Anthropic.ClaudeCode.
+A WinGet install stays on the version you installed until you upgrade it.
+Keeping it updated has the command, and a setting that
+runs it for you.
 
 
 
@@ -210,10 +212,10 @@ winget upgrade Anthropic.ClaudeCode.
 
 
 
-Close the window you installed from and open a fresh one. The installer
-adds Claude Code to your PATH, but a terminal that was already open never
-sees that change. Skipping this step is the most common reason a
-perfectly good install looks broken.
+Close the window you installed from and open a fresh one. A terminal
+keeps the PATH it had when it opened, so the window you installed from
+may not find claude even after a good install. Skipping this
+step is the most common reason a working install looks broken.
 
 
 
@@ -436,7 +438,8 @@ PowerShell
 Copy
 
 
-[Environment]::SetEnvironmentVariable('PATH', [Environment]::GetEnvironmentVariable('PATH', 'User') + ";$env:USERPROFILE\.local\bin", 'User')
+$currentPath = [Environment]::GetEnvironmentVariable('PATH', 'User')
+[Environment]::SetEnvironmentVariable('PATH', "$currentPath;$env:USERPROFILE\.local\bin", 'User')
 
 
 
@@ -706,8 +709,11 @@ to configure a corporate certificate for this case.
 
 ### cannot execute binary file: Exec format error
 
-This one shows up inside WSL. Claude Code's native build doesn't run on
-WSL 1. From PowerShell, list your distributions and move yours to WSL 2:
+This one shows up inside WSL. You're on WSL 1 and hitting a known problem
+with how WSL 1 loads Claude Code's program file
+(issue #38788).
+The cleanest fix is moving your distribution to WSL 2. From PowerShell, list
+your distributions, then convert yours:
 
 
 
@@ -722,8 +728,12 @@ wsl -l -v
 wsl --set-version Ubuntu 2
 
 
-After converting, open your WSL terminal and run the Linux installer there,
-not in PowerShell: curl -fsSL https://claude.ai/install.sh | bash.
+Then run claude again inside WSL. If you haven't installed it
+there yet, use the Linux installer in your WSL terminal, not in PowerShell:
+curl -fsSL https://claude.ai/install.sh | bash. If you have to stay
+on WSL 1, Anthropic documents a
+workaround
+that starts Claude Code through the system loader.
 
 
 
@@ -732,8 +742,10 @@ not in PowerShell: curl -fsSL https://claude.ai/install.sh | bash.
 
 Installation worked and signing in didn't. First check the obvious: the
 account you signed in with needs a paid plan, since the free Claude plan
-doesn't include Claude Code. If the plan is right, start
-claude, type /logout, and sign in again. For
+doesn't include Claude Code. If the plan is right, reset the login: type
+/logout inside Claude Code, close it, then run claude
+and sign in again. If the browser doesn't open, press c to copy
+the sign-in link and paste it into your browser yourself. For
 anything past that, Anthropic's
 login
 troubleshooting covers the rarer cases.
@@ -788,6 +800,11 @@ winget upgrade Anthropic.ClaudeCode
 
 That upgrade can fail while Claude Code is running, because Windows locks a
 program that's in use. Close every Claude Code session and try again.
+
+To have Claude Code run the upgrade for you, set the environment variable
+CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE to 1. It then
+upgrades in the background when a new version is out and asks you to restart
+when it's done.
 
 
 
@@ -869,8 +886,9 @@ PowerShell installer, then open a new VS Code terminal.
 
 Should I install Claude Code with npm on Windows?
 There's no need. The PowerShell installer puts the same program on your
-machine without Node.js, and it updates itself. npm installs need
-Node.js 22 or later and can hit PowerShell's script policy.
+machine without Node.js, and it updates itself. The npm package asks for
+Node.js 22 or later, and on Windows its launcher scripts can be blocked by
+PowerShell's script policy.
 
 
 
@@ -880,8 +898,9 @@ Node.js 22 or later and can hit PowerShell's script policy.
 Commands checked against Anthropic's
 setup and
 install
-troubleshooting documentation in September 2026. Error messages captured on
-Windows 10 with Windows PowerShell 5.1. If a command here has stopped
+troubleshooting documentation in September 2026. Screenshots captured on
+Windows 10 with Windows PowerShell 5.1; other error messages are quoted from
+those docs. If a command here has stopped
 working, tell us and it gets
 fixed.
 
