@@ -19,7 +19,7 @@ _None published yet._
 
 ## Tutorials
 
-- [Install Claude Code on Windows and fix every error](https://flintism.github.io/teardown/posts/claude-code-windows-install.html): The one PowerShell command that installs Claude Code on Windows, and the exact fix for every install error: PATH, wrong shell, Git Bash, WSL and more.
+- [Install Claude Code on Windows and fix every error](https://flintism.github.io/teardown/posts/claude-code-windows-install.html): One PowerShell command installs Claude Code on Windows. Here's the exact fix for every install error: PATH, wrong shell, Git Bash, WSL and more.
 - [Hooks: make Claude Code follow your rules automatically](https://flintism.github.io/teardown/posts/claude-code-hooks.html): A prompt is a suggestion. A hook is a guarantee. Wire up formatting, guardrails and notifications in about twenty minutes.
 
 ## Guides
@@ -89,8 +89,7 @@ Go straight to the error finder.
 
 
 - A paid Claude plan: Pro, Max, Team, Enterprise, or a
-Console account. The install works on the free plan, but logging in
-won't.
+Console account. The free plan can install Claude Code but can't use it.
 
 
 - No admin rights, Node.js or WSL needed.
@@ -133,7 +132,7 @@ If youUseKnow this
 
 
 
-Work in Command PromptThe CMD installer belowUpdates itself, like the PowerShell one
+Work in Command PromptThe Command Prompt installer belowUpdates itself, like the PowerShell one
 
 Manage apps with WinGetwinget install Anthropic.ClaudeCodeManual updates by default
 
@@ -211,7 +210,7 @@ it, Claude Code also gets Git Bash.
 
 Install Git from git-scm.com
 and pick Add to PATH during setup. If Git lives somewhere
-other than C:\Program Files\Git, tell Claude Code where, in
+other than C:\Program Files\Git, set its location in
 %USERPROFILE%\.claude\settings.json:
 
 
@@ -242,7 +241,7 @@ Bash, even though typing bash in PowerShell may open it.
 4
 
 
-## Log in
+## Sign in
 
 
 
@@ -252,7 +251,7 @@ sign-in link and paste it into your browser. If you've set an
 ANTHROPIC_API_KEY environment variable, Claude Code asks you to
 approve that key instead.
 
-You're installed. Everything below is for when a step went wrong.
+That's it: Claude Code is installed. Everything below is for when a step goes wrong.
 
 
 
@@ -275,7 +274,7 @@ Works in PowerShell, not in the VS Code or Cursor terminalThe editor was open be
 
 The token '&&' is not a valid statement separatorYou're in PowerShell, running the Command Prompt command
 
-A parameter cannot be found that matches parameter name 'fsSL'You pasted the Mac/Linux command
+A parameter cannot be found that matches parameter name 'fsSL'You pasted the Mac and Linux command
 
 The script's text prints, nothing installsYou ran half the command
 
@@ -287,13 +286,13 @@ Claude Code does not support 32-bit WindowsYou opened PowerShell (x86)
 
 requires either Git for Windows (for bash) or PowerShellClaude Code can't find a shell
 
-Typing claude opens the Desktop appAn older Claude Desktop took the command
+Typing claude opens the Desktop appAn older Desktop app claimed the command
 
 unable to get local issuer certificate, 403, TLS errorsYour network blocks or inspects the download
 
 cannot execute binary file: Exec format errorA known WSL 1 problem
 
-OAuth error or 403 Forbidden after loginA login or plan problem
+OAuth error or 403 Forbidden after signing inA sign-in or plan problem
 
 
 
@@ -325,7 +324,7 @@ claude --version works.
 - Open a new terminal. This fixes it most of the time.
 
 
-- Check the folder is on your PATH. No output means it's
+- Check that the folder is on your PATH. No output means it's
 missing:
 
 
@@ -365,7 +364,7 @@ from step 1.
 
 
 Don't use setx for this
-Many guides suggest setx PATH "%PATH%;...". setx cuts values
+Many guides suggest setx PATH "%PATH%;...". The setx command cuts values
 off at 1,024 characters, so on a machine with a long PATH it silently drops
 entries. The command above doesn't have that problem.
 
@@ -373,15 +372,15 @@ entries. The command above doesn't have that problem.
 
 
 
-### claude works in PowerShell, but not in the VS Code or Cursor terminal
+### The claude command works in PowerShell, but not in the VS Code or Cursor terminal
 
 Why: an editor's built-in terminal gets its settings,
-including the PATH, from the editor, and the editor read them when it started.
+including the PATH, from the editor, which reads them once, when it starts.
 If VS Code or Cursor was already open when you installed Claude Code, even a
 brand-new terminal tab inside it still has the old PATH.
 
 Fix: close the editor completely, every window, then open
-it again and open a new terminal. Still not found? Check you installed the
+it again and open a new terminal. Still not found? Check that you installed the
 terminal version from step 1: the VS Code extension on
 its own doesn't add a claude command.
 
@@ -398,7 +397,7 @@ Why: irm only exists in PowerShell.
 
 Fix: open Windows PowerShell and run the
 step 1 command, or stay in Command Prompt and use the
-CMD installer.
+Command Prompt installer.
 
 
 
@@ -436,7 +435,7 @@ The Mac and Linux installer, pasted into Windows PowerShell.
 
 Why: in Windows PowerShell, curl is really
 Invoke-WebRequest, which doesn't know the Mac and Linux flags.
-'bash' is not recognized is the same mistake.
+If you see 'bash' is not recognized instead, it's the same mistake.
 
 Fix: use the step 1 command. The
 install.sh installer is for Mac, Linux and WSL only.
@@ -447,7 +446,7 @@ install.sh installer is for Mac, Linux and WSL only.
 
 
 
-irm on its own. The last line says "Installation complete!", but that's just text from the script: nothing ran.
+Running irm on its own. The last line says "Installation complete!", but that's just text from the script: nothing ran.
 
 
 Why: irm https://claude.ai/install.ps1
@@ -585,7 +584,7 @@ then set CLAUDE_CODE_GIT_BASH_PATH to that install's
 bin\bash.exe, as in step 3.
 
 
-- Company laptop, path is right, still failing: security
+- Right path, still failing on a work laptop: security
 software such as AppLocker may be blocking it. Ask IT to allow
 claude.exe and the cmd.exe and bash.exe
 processes it starts.
@@ -645,13 +644,13 @@ workaround.
 
 
 
-### OAuth error or 403 Forbidden after login
+### OAuth error or 403 Forbidden after signing in
 
 Why: usually the account has no Claude Code access, which
-is the case on the free plan, or the login got stuck.
+is the case on the free plan, or the sign-in got stuck.
 
 Fix: confirm you're signing in with the account that has the
-paid plan. Then reset the login: type /logout inside Claude Code,
+paid plan. Then reset your sign-in: type /logout inside Claude Code,
 close it, run claude, and sign in again. For rarer cases, see
 Anthropic's
 login
@@ -684,8 +683,7 @@ If you use WSL, keep projects under /home/, not
 
 ## Keeping it updated
 
-The PowerShell and CMD installers update Claude Code in the background; the
-new version starts next time you run claude. To update now, run
+The PowerShell and Command Prompt installers update Claude Code in the background; the new version takes over the next time you run claude. To update now, run
 claude update.
 
 WinGet installs don't update on their own. Either upgrade by hand, with every

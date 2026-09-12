@@ -19,7 +19,7 @@ _None published yet._
 
 ## Tutorials
 
-- [Install Claude Code on Windows and fix every error](https://flintism.github.io/teardown/posts/claude-code-windows-install.html): The one PowerShell command that installs Claude Code on Windows, and the exact fix for every install error: PATH, wrong shell, Git Bash, WSL and more.
+- [Install Claude Code on Windows and fix every error](https://flintism.github.io/teardown/posts/claude-code-windows-install.html): One PowerShell command installs Claude Code on Windows. Here's the exact fix for every install error: PATH, wrong shell, Git Bash, WSL and more.
 - [Hooks: make Claude Code follow your rules automatically](https://flintism.github.io/teardown/posts/claude-code-hooks.html): A prompt is a suggestion. A hook is a guarantee. Wire up formatting, guardrails and notifications in about twenty minutes.
 
 ## Guides

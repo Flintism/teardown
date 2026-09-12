@@ -7,12 +7,12 @@
     <description>Hands-on tutorials and head-to-head comparisons of AI coding tools, agents and the workflows around them. Independent, unsponsored, with the test methodology published.</description>
     <language>en</language>
     <atom:link href="https://flintism.github.io/teardown/feed.xml" rel="self" type="application/rss+xml"/>
-    <lastBuildDate>Sat, 12 Sep 2026 22:18:01 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 12 Sep 2026 22:29:44 +0000</lastBuildDate>
     <item>
       <title>Install Claude Code on Windows and fix every error</title>
       <link>https://flintism.github.io/teardown/posts/claude-code-windows-install.html</link>
       <guid isPermaLink="true">https://flintism.github.io/teardown/posts/claude-code-windows-install.html</guid>
-      <description>The one PowerShell command that installs Claude Code on Windows, and the exact fix for every install error: PATH, wrong shell, Git Bash, WSL and more.</description>
+      <description>One PowerShell command installs Claude Code on Windows. Here's the exact fix for every install error: PATH, wrong shell, Git Bash, WSL and more.</description>
       <category>AI Coding</category>
       <dc:creator>EL Haddad Saad</dc:creator>
       <pubDate>Sat, 12 Sep 2026 00:00:00 +0000</pubDate>
