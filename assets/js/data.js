@@ -48,7 +48,7 @@ const POSTS = [
   {
     slug: 'claude-code-windows-install',
     type: 'tutorial',
-    title: 'Install Claude Code on Windows, then fix every error you hit',
+    title: 'Install Claude Code on Windows and fix every error',
     posterH: "'claude' is not recognized. Here's why.",
     deck: 'The one PowerShell command that installs Claude Code on Windows, and the exact fix for every install error: PATH, wrong shell, Git Bash, WSL and more.',
     category: 'AI Coding',

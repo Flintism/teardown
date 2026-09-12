@@ -19,7 +19,7 @@ _None published yet._
 
 ## Tutorials
 
-- [Install Claude Code on Windows, then fix every error you hit](https://flintism.github.io/teardown/posts/claude-code-windows-install.html): The one PowerShell command that installs Claude Code on Windows, and the exact fix for every install error: PATH, wrong shell, Git Bash, WSL and more.
+- [Install Claude Code on Windows and fix every error](https://flintism.github.io/teardown/posts/claude-code-windows-install.html): The one PowerShell command that installs Claude Code on Windows, and the exact fix for every install error: PATH, wrong shell, Git Bash, WSL and more.
 - [Hooks: make Claude Code follow your rules automatically](https://flintism.github.io/teardown/posts/claude-code-hooks.html): A prompt is a suggestion. A hook is a guarantee. Wire up formatting, guardrails and notifications in about twenty minutes.
 
 ## Guides
@@ -56,13 +56,25 @@ and a specific grievance.
 
 ---
 
-# Install Claude Code on Windows, then fix every error you hit
+# Install Claude Code on Windows and fix every error
 
 URL: https://flintism.github.io/teardown/posts/claude-code-windows-install.html
 Published: 2026-09-12 · Author: EL Haddad Saad · Type: tutorial · Category: AI Coding
-Already seeing an error?
-Skip the install steps and go straight to the error
-finder. Match the first line of your error and copy the fix.
+Which one do you need?
+
+
+- Just want to use Claude Code?
+Download the Desktop app,
+run the installer, and sign in. You don't need this guide.
+
+
+- Want the claude command in a terminal, for
+VS Code, Cursor, WSL or scripts? Follow the four steps below.
+
+
+- Already seeing an error?
+Go straight to the error finder.
+
 
 
 
@@ -257,6 +269,8 @@ What you seeWhat it means
 
 'claude' is not recognizedClaude Code isn't on your PATH
 
+Works in PowerShell, not in the VS Code or Cursor terminalThe editor was open before you installed
+
 'irm' is not recognizedYou're in Command Prompt, running the PowerShell command
 
 The token '&&' is not a valid statement separatorYou're in PowerShell, running the Command Prompt command
@@ -356,6 +370,20 @@ off at 1,024 characters, so on a machine with a long PATH it silently drops
 entries. The command above doesn't have that problem.
 
 
+
+
+
+### claude works in PowerShell, but not in the VS Code or Cursor terminal
+
+Why: an editor's built-in terminal gets its settings,
+including the PATH, from the editor, and the editor read them when it started.
+If VS Code or Cursor was already open when you installed Claude Code, even a
+brand-new terminal tab inside it still has the old PATH.
+
+Fix: close the editor completely, every window, then open
+it again and open a new terminal. Still not found? Check you installed the
+terminal version from step 1: the VS Code extension on
+its own doesn't add a claude command.
 
 
 
@@ -724,6 +752,23 @@ Your settings, MCP servers and session history stay in
 
 
 
+## Next steps
+
+
+
+- Your first session: Anthropic's
+quickstart
+walks through a first task in a real project.
+
+
+- Make it follow your rules:
+set up hooks so Claude Code formats code
+and blocks risky commands on its own.
+
+
+
+
+
 
 ## Frequently asked
 
@@ -750,9 +795,11 @@ Claude Code.
 
 
 Why doesn't the claude command work in the VS Code terminal?
-The VS Code extension carries a private copy of Claude Code and doesn't
-add a claude command to your PATH. Install Claude Code with the PowerShell
-installer, then open a new VS Code terminal.
+Usually one of two things. VS Code was open when you installed Claude Code,
+so its terminals still use the old PATH: quit VS Code completely and reopen
+it. Or you only installed the VS Code extension, which carries a private copy
+of Claude Code and doesn't add a claude command: install it with the
+PowerShell installer.
 
 
 

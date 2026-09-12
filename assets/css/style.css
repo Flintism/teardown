@@ -621,6 +621,8 @@ html[data-theme="dark"] .prompt__label { color: var(--accent); }
 /* Direct child only: a bold word at the start of the note's paragraph must stay inline. */
 .note > strong:first-child { display: block; margin-bottom: 3px; font-size: 13px; letter-spacing: .01em; }
 .note p { margin: 0; }
+.note ul, .note ol { margin: 4px 0 0; }
+.note li + li { margin-top: .3em; }
 .note--warn { background: color-mix(in srgb, var(--amber) 12%, var(--surface)); border-color: color-mix(in srgb, var(--amber) 40%, transparent); }
 .note--tip  { background: color-mix(in srgb, var(--lime) 16%, var(--surface));  border-color: color-mix(in srgb, var(--lime) 45%, transparent); }
 .note--stop { background: color-mix(in srgb, var(--rose) 10%, var(--surface));  border-color: color-mix(in srgb, var(--rose) 34%, transparent); }
