@@ -664,6 +664,18 @@ claude : The term 'claude' is not recognized as the name of a cmdlet, function,
 script file, or operable program.</code></pre>
         </div>
 
+        <figure>
+          <img src="../assets/img/claude-code-windows/cmd-claude-not-recognized.webp" width="1034" height="272" loading="lazy" decoding="async"
+               alt="Command Prompt window where claude --version fails with: 'claude' is not recognized as an internal or external command, operable program or batch file.">
+          <figcaption>Command Prompt, when Claude Code isn't on your PATH. Captured on Windows 10, September 2026.</figcaption>
+        </figure>
+
+        <figure>
+          <img src="../assets/img/claude-code-windows/ps-claude-not-recognized.webp" width="1310" height="320" loading="lazy" decoding="async"
+               alt="Windows PowerShell window where claude --version fails with: The term 'claude' is not recognized as the name of a cmdlet, function, script file, or operable program.">
+          <figcaption>The same problem in Windows PowerShell, which words it differently and adds CommandNotFoundException.</figcaption>
+        </figure>
+
         <p>Windows looks for programs only in the folders listed in your PATH. The
         installer puts Claude Code at <code>%USERPROFILE%\.local\bin\claude.exe</code>.
         Work through these in order:</p>
@@ -717,11 +729,23 @@ script file, or operable program.</code></pre>
 operable program or batch file.</code></pre>
         </div>
 
+
+        <figure>
+          <img src="../assets/img/claude-code-windows/cmd-irm-not-recognized.webp" width="1034" height="296" loading="lazy" decoding="async"
+               alt="Command Prompt window where irm https://claude.ai/install.ps1 | iex fails with: 'irm' is not recognized as an internal or external command.">
+          <figcaption>The PowerShell install command typed into Command Prompt. Captured on Windows 10, September 2026.</figcaption>
+        </figure>
         <p><code>irm</code> is a PowerShell command, and you ran it in Command
         Prompt. Either open PowerShell and run the original command, or stay in CMD
         and use the <a href="#step-1">CMD installer</a>.</p>
 
         <h3 id="err-token">The token '&amp;&amp;' is not a valid statement separator</h3>
+
+        <figure>
+          <img src="../assets/img/claude-code-windows/ps-token-not-valid.webp" width="1422" height="464" loading="lazy" decoding="async"
+               alt="Windows PowerShell window where the Command Prompt install command fails twice with: The token '&amp;&amp;' is not a valid statement separator in this version.">
+          <figcaption>The CMD install command pasted into Windows PowerShell 5.1. It fails while parsing, so nothing downloads. Captured on Windows 10, September 2026.</figcaption>
+        </figure>
 
         <p>The opposite mistake: you pasted the CMD installer into PowerShell.
         Windows PowerShell, the version built into Windows, doesn't understand
@@ -746,6 +770,12 @@ operable program or batch file.</code></pre>
 <pre tabindex="0"><code>Invoke-WebRequest : A parameter cannot be found that matches parameter name 'fsSL'.</code></pre>
         </div>
 
+
+        <figure>
+          <img src="../assets/img/claude-code-windows/ps-parameter-fssl.webp" width="1310" height="320" loading="lazy" decoding="async"
+               alt="Windows PowerShell window where curl -fsSL https://claude.ai/install.sh fails with: Invoke-WebRequest : A parameter cannot be found that matches parameter name 'fsSL'.">
+          <figcaption>In Windows PowerShell, curl is really Invoke-WebRequest, and it rejects the Mac and Linux flags. Captured on Windows 10, September 2026.</figcaption>
+        </figure>
         <p>You copied the Mac and Linux command, <code>curl -fsSL ... | bash</code>.
         In Windows PowerShell, <code>curl</code> is a nickname for
         <code>Invoke-WebRequest</code>, which doesn't know those flags. If the error
@@ -758,6 +788,12 @@ operable program or batch file.</code></pre>
         on its own fetches the script and prints it. The <code>| iex</code> at the
         end is what runs it. Paste the whole line. In CMD, the same thing happens if
         <code>-o install.cmd</code> is missing.</p>
+
+        <figure>
+          <img src="../assets/img/claude-code-windows/ps-script-text-prints.webp" width="1310" height="440" loading="lazy" decoding="async"
+               alt="Windows PowerShell window filled with the text of the Claude Code install script, ending with a line that reads Installation complete, although nothing was installed.">
+          <figcaption>Running irm without | iex prints the installer instead of running it. The last line reads Installation complete!, but it's only the script's text: nothing ran. Captured on Windows 10, September 2026.</figcaption>
+        </figure>
 
         <h3 id="err-scripts-disabled">running scripts is disabled on this system</h3>
 

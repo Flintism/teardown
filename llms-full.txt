@@ -391,6 +391,16 @@ claude : The term 'claude' is not recognized as the name of a cmdlet, function,
 script file, or operable program.
 
 
+
+
+Command Prompt, when Claude Code isn't on your PATH. Captured on Windows 10, September 2026.
+
+
+
+
+The same problem in Windows PowerShell, which words it differently and adds CommandNotFoundException.
+
+
 Windows looks for programs only in the folders listed in your PATH. The
 installer puts Claude Code at %USERPROFILE%\.local\bin\claude.exe.
 Work through these in order:
@@ -462,6 +472,10 @@ What you see
 operable program or batch file.
 
 
+
+
+The PowerShell install command typed into Command Prompt. Captured on Windows 10, September 2026.
+
 irm is a PowerShell command, and you ran it in Command
 Prompt. Either open PowerShell and run the original command, or stay in CMD
 and use the CMD installer.
@@ -469,6 +483,11 @@ and use the CMD installer.
 
 
 ### The token '&&' is not a valid statement separator
+
+
+
+The CMD install command pasted into Windows PowerShell 5.1. It fails while parsing, so nothing downloads. Captured on Windows 10, September 2026.
+
 
 The opposite mistake: you pasted the CMD installer into PowerShell.
 Windows PowerShell, the version built into Windows, doesn't understand
@@ -499,6 +518,10 @@ What you see
 Invoke-WebRequest : A parameter cannot be found that matches parameter name 'fsSL'.
 
 
+
+
+In Windows PowerShell, curl is really Invoke-WebRequest, and it rejects the Mac and Linux flags. Captured on Windows 10, September 2026.
+
 You copied the Mac and Linux command, curl -fsSL ... | bash.
 In Windows PowerShell, curl is a nickname for
 Invoke-WebRequest, which doesn't know those flags. If the error
@@ -513,6 +536,11 @@ You ran only the download half. irm https://claude.ai/install.ps1
 on its own fetches the script and prints it. The | iex at the
 end is what runs it. Paste the whole line. In CMD, the same thing happens if
 -o install.cmd is missing.
+
+
+
+Running irm without | iex prints the installer instead of running it. The last line reads Installation complete!, but it's only the script's text: nothing ran. Captured on Windows 10, September 2026.
+
 
 
 
