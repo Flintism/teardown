@@ -19,6 +19,7 @@ _None published yet._
 
 ## Tutorials
 
+- [Install Claude Code on Windows, then fix every error you hit](https://flintism.github.io/teardown/posts/claude-code-windows-install.html): The one PowerShell command that installs Claude Code on Windows, and the exact fix for every install error: PATH, wrong shell, Git Bash, WSL and more.
 - [Hooks: make Claude Code follow your rules automatically](https://flintism.github.io/teardown/posts/claude-code-hooks.html): A prompt is a suggestion. A hook is a guarantee. Wire up formatting, guardrails and notifications in about twenty minutes.
 
 ## Guides
@@ -51,6 +52,821 @@ and a specific grievance.
 ---
 
 # Full article text
+
+
+---
+
+# Install Claude Code on Windows, then fix every error you hit
+
+URL: https://flintism.github.io/teardown/posts/claude-code-windows-install.html
+Published: 2026-09-12 · Author: EL Haddad Saad · Type: tutorial · Category: AI Coding
+TL;DR
+Open PowerShell, not CMD. Run
+irm https://claude.ai/install.ps1 | iex, close the window,
+open a new one, and run claude --version. If you get a
+version number, you're done. If you get an error,
+find it in the table below.
+
+
+
+
+Claude Code runs natively on Windows now. You don't need WSL, you don't
+need Node.js, and you don't need to run anything as Administrator. Most
+failed installs come down to one of three things: the command was typed
+into the wrong kind of terminal, the terminal was never reopened, or
+something on the network got in the way.
+
+
+
+Every command here comes from Anthropic's own documentation, checked in
+September 2026. The error messages were captured on a real Windows 10
+machine, so you can match them letter for letter.
+
+
+
+
+## Before you start
+
+Three things to check, which takes about a minute:
+
+
+
+- Windows 10 version 1809 or newer (or Windows Server
+2019+), on a 64-bit system with at least 4 GB of RAM.
+
+
+- A paid Claude plan. Claude Code needs Pro, Max, Team,
+Enterprise, or a Console account. The free Claude plan doesn't include
+it, so installing works but logging in won't.
+
+
+- Know which terminal you're in. This causes more
+failed installs than anything else on this page.
+
+
+
+
+PowerShell or CMD? Look at the prompt
+PowerShell shows PS C:\Users\YourName>. Command Prompt
+(CMD) shows C:\Users\YourName> with no PS in
+front. The two need different install commands.
+
+
+
+
+
+## Pick your install route
+
+Most people should use the first row. The others exist for good reasons,
+each with one catch.
+
+
+
+
+RouteBest forThe catch
+
+
+
+PowerShell installerAlmost everyoneNone. It updates itself in the background
+
+CMD installerPeople who work in Command PromptA different, longer command
+
+WinGetPeople who manage apps with WinGetDoesn't update itself
+
+WSL 2Linux toolchains, or sandboxed commandsSlow search on files under /mnt/c
+
+Desktop appNot using a terminal at allYou get the app, not the claude command
+
+
+
+
+
+
+
+1
+
+
+## Install Claude Code
+
+
+
+Open PowerShell from the Start menu. Pick Windows
+PowerShell, not the entry that ends in (x86). Paste
+this and press Enter:
+
+
+
+
+
+PowerShell
+Copy
+
+
+irm https://claude.ai/install.ps1 | iex
+
+
+If you're in Command Prompt instead, use the CMD version. It downloads the
+installer, runs it, then deletes it:
+
+
+
+
+
+Command Prompt
+Copy
+
+
+curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
+
+
+If you already manage software with WinGet, this works too:
+
+
+
+
+
+PowerShell
+Copy
+
+
+winget install Anthropic.ClaudeCode
+
+
+
+WinGet won't update Claude Code for you
+The PowerShell and CMD installers keep Claude Code current on their own.
+A WinGet install stays on the version you installed until you run
+winget upgrade Anthropic.ClaudeCode.
+
+
+
+
+
+2
+
+
+## Open a new terminal and check it works
+
+
+
+
+Close the window you installed from and open a fresh one. The installer
+adds Claude Code to your PATH, but a terminal that was already open never
+sees that change. Skipping this step is the most common reason a
+perfectly good install looks broken.
+
+
+
+
+
+
+PowerShell
+Copy
+
+
+claude --version
+
+
+A working install prints a version number followed by
+(Claude Code). For a fuller check of the install, your settings
+and any warnings, run:
+
+
+
+
+
+PowerShell
+Copy
+
+
+claude doctor
+
+
+claude doctor only reads. It changes nothing, and it's the
+first thing to run whenever something feels off.
+
+
+
+3
+
+
+## Decide about Git for Windows
+
+
+
+
+Git for Windows is optional. It changes which shell Claude Code uses when
+it runs commands for you:
+
+
+
+
+- Without Git for Windows, Claude Code runs commands
+through PowerShell.
+
+
+- With Git for Windows, it gets Git Bash for its Bash
+tool, and PowerShell stays available alongside it. Pick this if your
+projects use shell scripts written for Mac or Linux.
+
+
+
+
+To add it, download Git from
+git-scm.com
+and choose Add to PATH during setup. Claude Code looks in
+C:\Program Files\Git first. If your Git lives somewhere else,
+point Claude Code at it in your settings file,
+%USERPROFILE%\.claude\settings.json:
+
+
+
+
+
+
+settings.json
+Copy
+
+
+{
+"env": {
+"CLAUDE_CODE_GIT_BASH_PATH": "C:\\Program Files\\Git\\bin\\bash.exe"
+}
+}
+
+
+
+Point it at bash.exe, not git-bash.exe
+Claude Code only accepts a file named bash.exe or
+sh.exe. The git-bash.exe launcher looks right but
+gets ignored. Also, typing bash in PowerShell may start
+C:\Windows\System32\bash.exe, which is WSL's launcher, not
+Git Bash. Don't use that path here.
+
+
+
+
+
+4
+
+
+## Log in
+
+
+
+
+Open a terminal in the folder of a project you want to work on and run
+claude. Your browser opens so you can sign in. If you've set
+an ANTHROPIC_API_KEY environment variable, Claude Code asks
+you once to approve that key instead.
+
+
+That's the whole install. The rest of this page is for when one of those
+four steps went wrong.
+
+
+
+## Find your error
+
+Match the first line of what your terminal printed, then jump to the
+fix.
+
+
+
+
+What you seeWhat it means
+
+
+
+'claude' is not recognizedClaude Code isn't on your PATH yet
+
+'irm' is not recognizedYou're in CMD, running the PowerShell command
+
+The token '&&' is not a valid statement separatorYou're in PowerShell, running the CMD command
+
+A parameter cannot be found that matches parameter name 'fsSL'You pasted the Mac/Linux command
+
+The script's text prints, nothing installsYou ran half the command
+
+running scripts is disabled on this systemAn npm install blocked by PowerShell's policy
+
+The process cannot access the fileAntivirus or a second installer is holding the download
+
+Claude Code does not support 32-bit WindowsYou opened PowerShell (x86)
+
+requires either Git for Windows (for bash) or PowerShellClaude Code can't find any shell
+
+Typing claude opens the Desktop appAn older Claude Desktop claimed the command
+
+unable to get local issuer certificate, 403, TLS errorsYour network is blocking or inspecting the download
+
+cannot execute binary file: Exec format errorYou're on WSL 1
+
+OAuth error or 403 Forbidden after loginA login or plan problem
+
+
+
+
+
+
+
+### 'claude' is not recognized
+
+Command Prompt says it one way, PowerShell another. Both mean the same
+thing:
+
+
+
+
+
+What you see
+
+
+# Command Prompt
+'claude' is not recognized as an internal or external command,
+operable program or batch file.
+
+# PowerShell
+claude : The term 'claude' is not recognized as the name of a cmdlet, function,
+script file, or operable program.
+
+
+Windows looks for programs only in the folders listed in your PATH. The
+installer puts Claude Code at %USERPROFILE%\.local\bin\claude.exe.
+Work through these in order:
+
+
+
+- Open a new terminal. Fixes it most of the time.
+
+
+- Check whether the folder is on your PATH:
+
+
+
+
+PowerShell
+Copy
+
+
+$env:PATH -split ';' | Select-String '\.local\\bin'
+
+
+If that prints nothing, the folder is missing.
+
+
+
+
+- Add it to your user PATH, then open a new terminal:
+
+
+
+
+PowerShell
+Copy
+
+
+[Environment]::SetEnvironmentVariable('PATH', [Environment]::GetEnvironmentVariable('PATH', 'User') + ";$env:USERPROFILE\.local\bin", 'User')
+
+
+
+
+
+
+
+Don't use setx for this
+Plenty of guides suggest setx PATH "%PATH%;...". setx cuts
+values off at 1,024 characters, so on a machine with a long PATH it
+silently deletes entries from the end. The command above appends to your
+user PATH without that risk.
+
+
+
+One more cause: if you only installed the Claude Code extension for VS
+Code, there's no claude command at all. The extension keeps a
+private copy for its own panel. Run the installer from step 1 to get the
+terminal command.
+
+
+
+### 'irm' is not recognized
+
+
+
+
+
+What you see
+
+
+'irm' is not recognized as an internal or external command,
+operable program or batch file.
+
+
+irm is a PowerShell command, and you ran it in Command
+Prompt. Either open PowerShell and run the original command, or stay in CMD
+and use the CMD installer.
+
+
+
+### The token '&&' is not a valid statement separator
+
+The opposite mistake: you pasted the CMD installer into PowerShell.
+Windows PowerShell, the version built into Windows, doesn't understand
+&&. Use the PowerShell command instead:
+
+
+
+
+
+PowerShell
+Copy
+
+
+irm https://claude.ai/install.ps1 | iex
+
+
+
+
+### A parameter cannot be found that matches parameter name 'fsSL'
+
+
+
+
+
+What you see
+
+
+Invoke-WebRequest : A parameter cannot be found that matches parameter name 'fsSL'.
+
+
+You copied the Mac and Linux command, curl -fsSL ... | bash.
+In Windows PowerShell, curl is a nickname for
+Invoke-WebRequest, which doesn't know those flags. If the error
+instead says 'bash' is not recognized, it's the same mistake.
+Use the PowerShell command from step 1.
+
+
+
+### The script's text prints, and nothing installs
+
+You ran only the download half. irm https://claude.ai/install.ps1
+on its own fetches the script and prints it. The | iex at the
+end is what runs it. Paste the whole line. In CMD, the same thing happens if
+-o install.cmd is missing.
+
+
+
+### running scripts is disabled on this system
+
+
+
+
+
+What you see
+
+
+npm : File C:\Program Files\nodejs\npm.ps1 cannot be loaded because running
+scripts is disabled on this system.
+
+
+This only happens with an npm install. PowerShell's execution policy
+blocks the small .ps1 launcher scripts npm creates, and after an
+npm install the same error names claude.ps1. Three ways out:
+
+
+
+- Easiest: skip npm and use the
+PowerShell installer, which installs a program, not a
+script.
+
+
+- Keep npm: allow scripts you run yourself, then
+retry:
+
+
+
+
+PowerShell
+Copy
+
+
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+
+
+
+
+- Don't touch the policy: type claude.cmd
+instead of claude. The policy doesn't cover .cmd
+files.
+
+
+
+
+
+### The process cannot access the file
+
+
+
+
+
+What you see
+
+
+Failed to download binary: The process cannot access the file ... because it is
+being used by another process
+
+
+The installer couldn't write to its download folder. Usually another
+installer window is still running, or antivirus is scanning the half-finished
+download. Close the other PowerShell windows, give the scan a minute, clear
+the folder, and run the installer again:
+
+
+
+
+
+PowerShell
+Copy
+
+
+Remove-Item -Recurse -Force "$env:USERPROFILE\.claude\downloads"
+irm https://claude.ai/install.ps1 | iex
+
+
+
+
+### Claude Code does not support 32-bit Windows
+
+
+You almost certainly have 64-bit Windows. The Start menu lists two
+PowerShells, and Windows PowerShell (x86) runs as a 32-bit
+program, which triggers this error on any machine. Check in that same
+window:
+
+
+
+
+
+
+PowerShell
+Copy
+
+
+[Environment]::Is64BitOperatingSystem
+
+
+If it prints True, close it, open plain Windows
+PowerShell, and install again. If it prints False, the
+machine really is 32-bit, and Claude Code won't run on it.
+
+
+
+### Claude Code on Windows requires either Git for Windows (for bash) or PowerShell
+
+Claude Code found neither shell. Two fixes, depending on what you
+have:
+
+
+
+- PowerShell missing from PATH. Its usual home is
+C:\Windows\System32\WindowsPowerShell\v1.0\. Add that folder to
+your PATH, or install PowerShell 7.
+
+
+- Git installed but not found. Run
+where.exe git to find it, then set
+CLAUDE_CODE_GIT_BASH_PATH to that installation's
+bin\bash.exe, as in step 3.
+
+
+
+On a company laptop, if the path is right and it still fails, security
+software such as AppLocker may be blocking it. Ask IT to allow
+claude.exe and the cmd.exe and
+bash.exe processes it starts.
+
+
+
+### Typing claude opens the Desktop app
+
+An older version of the Claude Desktop app registered its own
+Claude.exe in a folder that Windows checks before yours.
+Update the Desktop app to the latest version and the claude
+command goes back to the terminal tool.
+
+
+
+### unable to get local issuer certificate, 403, or TLS errors
+
+
+These all mean the download never arrived intact. Usually your network is
+inspecting or blocking it, which is common on company laptops, school
+networks and some VPNs. App unavailable in region is the
+exception: it means Claude Code isn't offered in your country.
+
+
+
+To confirm it's the network, try once from another connection, such as
+your phone's hotspot. If it installs there, the fix belongs to your IT
+team: Anthropic documents
+how
+to configure a corporate certificate for this case.
+
+
+
+
+### cannot execute binary file: Exec format error
+
+This one shows up inside WSL. Claude Code's native build doesn't run on
+WSL 1. From PowerShell, list your distributions and move yours to WSL 2:
+
+
+
+
+
+PowerShell
+Copy
+
+
+wsl -l -v
+# then, using the NAME from that list:
+wsl --set-version Ubuntu 2
+
+
+After converting, open your WSL terminal and run the Linux installer there,
+not in PowerShell: curl -fsSL https://claude.ai/install.sh | bash.
+
+
+
+### OAuth error or 403 Forbidden after login
+
+
+Installation worked and signing in didn't. First check the obvious: the
+account you signed in with needs a paid plan, since the free Claude plan
+doesn't include Claude Code. If the plan is right, start
+claude, type /logout, and sign in again. For
+anything past that, Anthropic's
+login
+troubleshooting covers the rarer cases.
+
+
+
+
+## Native Windows or WSL: which to keep
+
+If you're choosing fresh, pick native Windows unless one of these is true
+for you:
+
+
+
+- Your projects already live in WSL. Keep Claude Code
+where the code is.
+
+
+- You want sandboxed commands. Sandboxing works on WSL 2
+and not on native Windows.
+
+
+- Your toolchain is Linux-only. Some build tools simply
+assume Linux.
+
+
+
+Otherwise native wins. It's faster at searching your files. If you do use
+WSL, keep projects under /home/ rather than /mnt/c/,
+where search is slow and can return fewer results than it should.
+
+
+
+## Keeping it updated
+
+Installs from the PowerShell or CMD installer update themselves in the
+background. The new version takes effect the next time you start
+claude. To update right now, run claude update.
+
+WinGet installs need a manual upgrade:
+
+
+
+
+
+PowerShell
+Copy
+
+
+winget upgrade Anthropic.ClaudeCode
+
+
+That upgrade can fail while Claude Code is running, because Windows locks a
+program that's in use. Close every Claude Code session and try again.
+
+
+
+## Starting clean
+
+If nothing above worked, remove Claude Code and install it once more with
+the PowerShell installer. First check whether you have two copies, which
+happens when an old npm install sits next to a newer one:
+
+
+
+
+
+PowerShell
+Copy
+
+
+where.exe claude
+
+
+Then remove whichever install you have:
+
+
+
+
+
+PowerShell
+Copy
+
+
+# PowerShell or CMD installer
+Remove-Item -Path "$env:USERPROFILE\.local\bin\claude.exe" -Force
+Remove-Item -Path "$env:USERPROFILE\.local\share\claude" -Recurse -Force
+
+# WinGet
+winget uninstall Anthropic.ClaudeCode
+
+# npm
+npm uninstall -g @anthropic-ai/claude-code
+
+
+This keeps your settings, which live in %USERPROFILE%\.claude.
+Leave that folder alone unless you want to lose your settings, MCP servers
+and session history too.
+
+
+
+
+## Frequently asked
+
+
+Does Claude Code work on Windows without WSL?
+Yes. Claude Code runs natively on Windows 10 version 1809 and newer,
+and on Windows Server 2019 and newer. WSL is only worth it if your
+projects already live there or you want sandboxed commands.
+
+
+
+Do I need Git for Windows to use Claude Code?
+No. Without it, Claude Code runs commands through PowerShell. With it,
+Claude Code also gets Git Bash, which helps when your projects rely on
+shell scripts written for Mac or Linux.
+
+
+
+Is Claude Code free on Windows?
+The install is free, but using it needs a Claude Pro, Max, Team or
+Enterprise plan, or a Console account. The free Claude plan doesn't
+include Claude Code.
+
+
+
+Why doesn't the claude command work in the VS Code terminal?
+The VS Code extension carries its own private copy of Claude Code and
+doesn't add a claude command to your PATH. Install Claude Code with the
+PowerShell installer, then open a new VS Code terminal.
+
+
+
+Should I install Claude Code with npm on Windows?
+There's no need. The PowerShell installer puts the same program on your
+machine without Node.js, and it updates itself. npm installs need
+Node.js 22 or later and can hit PowerShell's script policy.
+
+
+
+
+
+
+Commands checked against Anthropic's
+setup and
+install
+troubleshooting documentation in September 2026. Error messages captured on
+Windows 10 with Windows PowerShell 5.1. If a command here has stopped
+working, tell us and it gets
+fixed.
+
+
+ES
+
+
+
+
+### EL Haddad Saad
+
+Writes Teardown. Every fix on this page maps to a real error message,
+not a guess. If yours isn't here, send it over.
 
 
 ---

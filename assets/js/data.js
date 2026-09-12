@@ -46,6 +46,20 @@ const AUTHOR = {
 
 const POSTS = [
   {
+    slug: 'claude-code-windows-install',
+    type: 'tutorial',
+    title: 'Install Claude Code on Windows, then fix every error you hit',
+    posterH: "'claude' is not recognized. Here's why.",
+    deck: 'The one PowerShell command that installs Claude Code on Windows, and the exact fix for every install error: PATH, wrong shell, Git Bash, WSL and more.',
+    category: 'AI Coding',
+    date: '2026-09-12',
+    mins: 12,
+    num: '05',
+    author: AUTHOR,
+    tags: ['claude code', 'claudecode', 'windows', 'install', 'powershell', 'cmd',
+           'winget', 'wsl', 'git bash', 'path', 'not recognized', 'troubleshooting']
+  },
+  {
     slug: 'ai-app-builders-ownership',
     type: 'guide',
     title: 'Seven AI app builders, sorted by what you own at the end',
