@@ -36,12 +36,9 @@ _None published yet._
 - How we test coding agents (Teardown)
 - Claude Code vs. Codex: which agent actually finishes the job? (AI Coding)
 - How agentic commerce actually works (Commerce)
-- Build your first MCP server in 30 minutes (Agents)
 - Cursor vs. Windsurf: the editor war nobody is winning (AI Coding)
 - You are not running out of context. You are wasting it. (Fundamentals)
-- Subagents in practice: when parallel beats sequential (Agents)
 - Teardown: what you are really paying for per agent run (Teardown)
-- Writing a CLAUDE.md your agent will actually obey (Workflow)
 
 ## Contact
 

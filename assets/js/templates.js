@@ -61,7 +61,7 @@
     // title right below it carries the text.
     if (post.cover) {
       return '' +
-        '<div class="poster poster--cover" style="--cover:url(\'' + esc((base || '') + post.cover) + '\')" aria-hidden="true">' +
+        '<div class="poster poster--cover" aria-hidden="true">' +
           '<img src="' + esc((base || '') + post.cover) + '" width="1200" height="630" alt="" loading="lazy" decoding="async">' +
         '</div>';
     }
