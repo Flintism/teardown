@@ -50,6 +50,7 @@ const POSTS = [
     type: 'tutorial',
     title: 'Install Claude Code on Windows and fix every error',
     posterH: "'claude' is not recognized. Here's why.",
+    cover: 'assets/img/claude-code-windows/cover.webp',
     deck: "One PowerShell command installs Claude Code on Windows. Here's the exact fix for every install error: PATH, wrong shell, Git Bash, WSL and more.",
     category: 'AI Coding',
     date: '2026-09-12',

@@ -234,6 +234,16 @@ def og_images(td):
         return lines
 
     for p in published(td["POSTS"]):
+        if p.get("cover"):
+            # a hand-made cover is the share card as-is
+            cover = Image.open(ROOT / p["cover"]).convert("RGB")
+            if cover.size != (W, H):
+                cover = cover.resize((W, H), Image.LANCZOS)
+            dest = out_dir / f"{p['slug']}.png"
+            cover.save(dest, "PNG", optimize=True)
+            made.append(dest.name)
+            continue
+
         cat = td["CATEGORIES"].get(p["category"], {"color": "#8A877F",
                                                   "blob1": "#8A877F",
                                                   "blob2": "#5C5A55"})

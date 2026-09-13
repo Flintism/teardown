@@ -1,0 +1,133 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Inter+Tight:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=block">
+<style>
+  :root { --ink:#0A0A0C; --on:#FBFAF8; --muted:#A2A099; --faint:#6E6B62; --coral:#FF5B38; --violet:#8B5CF6; --lime:#C6F135; --claude:#D97757; }
+  html, body { margin:0; width:1200px; height:630px; overflow:hidden; background:var(--ink); }
+  .c { position:relative; width:1200px; height:630px; overflow:hidden; background:
+        radial-gradient(620px 500px at -40px -60px, rgba(255,91,56,.30), transparent 70%),
+        radial-gradient(660px 540px at 1260px 700px, rgba(139,92,246,.36), transparent 70%),
+        var(--ink);
+       color:var(--on); font-family:"Inter Tight", sans-serif; }
+
+  /* variant switch: elements marked only-x show in variant x */
+  [class*="only-"] { display:none !important; }
+  .v-a .only-a, .v-b .only-b, .v-c .only-c, .v-d .only-d, .v-e .only-e { display:revert !important; }
+  .v-b .nodot, .v-e .fix-default, .v-e .fix-arrow-default { display:none !important; }
+
+  .top { position:absolute; left:64px; right:64px; top:56px; display:flex; justify-content:space-between; align-items:center;
+         font:500 19px/1 "JetBrains Mono", monospace; letter-spacing:.06em; z-index:3; }
+  .pill { border:2px solid var(--on); border-radius:999px; padding:11px 20px; }
+  .type { color:var(--muted); }
+  .hand { font-family:"Gloria Hallelujah", cursive; }
+  .h1 { position:absolute; left:64px; top:150px; font-size:62px; line-height:1.22; margin:0; font-weight:400; }
+  .h2 { position:absolute; left:70px; top:348px; font-size:44px; color:var(--coral); }
+  .foot { position:absolute; left:64px; bottom:52px; font:500 17px/1 "JetBrains Mono", monospace; letter-spacing:.08em; color:var(--faint); }
+
+  .term { position:absolute; left:590px; top:196px; width:552px; height:262px; border:3px solid var(--on); border-radius:18px; box-sizing:border-box; background:var(--ink); z-index:2; }
+  .bar { height:46px; border-bottom:2px solid rgba(251,250,248,.28); display:flex; align-items:center; gap:9px; padding:0 18px; }
+  .bar i { width:12px; height:12px; border-radius:50%; border:2px solid var(--on); }
+  .bar span { margin-left:12px; font:500 16px/1 "JetBrains Mono", monospace; color:var(--muted); }
+  .body { padding:20px 22px; font:400 18px/1 "JetBrains Mono", monospace; display:flex; flex-direction:column; gap:15px; white-space:nowrap; }
+  .p { color:var(--faint); }
+  .err { color:var(--coral); font-weight:500; }
+  .welcome { color:var(--claude); font-weight:500; }
+  .mini { height:19px; width:19px; vertical-align:-3px; margin-right:8px; }
+
+  svg.ink { position:absolute; inset:0; overflow:visible; z-index:4; pointer-events:none; }
+  .fix { position:absolute; top:500px; font-size:34px; color:var(--lime); white-space:nowrap; z-index:4; }
+  .fix-default { left:720px; }
+  .fix-e { left:640px; }
+
+  /* A: burst out of the terminal corner */
+  .burst { position:absolute; left:1016px; top:112px; width:132px; height:132px; border-radius:50%; z-index:3;
+           background: radial-gradient(circle, #0A0A0C 0 52%, rgba(217,119,87,.34) 53%, rgba(217,119,87,0) 72%);
+           place-items:center; }
+  .v-a .burst { display:grid !important; }
+  .burst img { width:88px; height:88px; display:block; filter: drop-shadow(0 0 18px rgba(217,119,87,.55)); }
+
+  /* B: spark as the full stop */
+  .dot { height:50px; width:50px; margin-left:8px; vertical-align:-2px; filter: drop-shadow(0 0 14px rgba(217,119,87,.6)); }
+
+  /* C: giant spark peeking from behind the terminal */
+  .halo { position:absolute; left:880px; top:-16px; width:480px; height:480px; border-radius:50%; z-index:1;
+          background: radial-gradient(circle, rgba(217,119,87,.40) 0%, rgba(217,119,87,.15) 36%, rgba(217,119,87,0) 66%); }
+  .peek { position:absolute; left:1000px; top:104px; width:240px; height:240px; z-index:1;
+          filter: drop-shadow(0 0 14px rgba(217,119,87,.6)); }
+  .v-c .term::before { content:""; position:absolute; left:360px; top:-3px; width:192px; height:3px; border-radius:3px;
+          background: linear-gradient(90deg, rgba(217,119,87,0), #FFB08F 75%, #FFB08F);
+          box-shadow: 0 0 18px 3px rgba(217,119,87,.7); }
+  .v-c .term::after { content:""; position:absolute; right:-3px; top:0; width:3px; height:150px; border-radius:3px;
+          background: linear-gradient(180deg, #FFB08F, rgba(217,119,87,0));
+          box-shadow: 0 0 18px 3px rgba(217,119,87,.55); }
+
+  /* D: sticker slapped on the corner */
+  .sticker { position:absolute; left:1046px; top:120px; width:146px; height:146px; border-radius:50%; background:#F0EEE6; transform:rotate(-12deg);
+             box-shadow: 0 10px 24px rgba(0,0,0,.55), inset 0 0 0 5px #FBFAF8; z-index:3; place-items:center; }
+  .v-d .sticker { display:grid !important; }
+  .sticker img { width:92px; height:92px; display:block; }
+
+  /* E: circled in the corner, like a signature */
+  .sig { position:absolute; left:1080px; top:520px; width:64px; height:64px; z-index:3; }
+</style></head>
+<body><div class="c">
+  <div class="top"><span class="pill">AI CODING</span><span class="type">TUTORIAL · 4 STEPS</span></div>
+
+  <p class="h1 hand">'claude' is not<br>recognized<span class="nodot">.</span><img class="dot only-b" src="claude-spark.svg" alt="Claude"></p>
+  <div class="h2 hand">Here's why</div>
+
+  <div class="halo only-c"></div>
+  <img class="peek only-c" src="claude-spark.svg" alt="Claude">
+
+  <div class="term">
+    <div class="bar"><i></i><i></i><i></i><span>PowerShell</span></div>
+    <div class="body">
+      <div><span class="p">PS C:\&gt;</span> claude</div>
+      <div class="err">✗ 'claude' is not recognized</div>
+      <div><span class="p">PS C:\&gt;</span> irm https://claude.ai/install.ps1 | iex</div>
+      <div><span class="p">PS C:\&gt;</span> claude</div>
+      <div class="welcome"><img class="mini only-a" src="claude-spark.svg" alt="">Welcome to Claude Code!</div>
+    </div>
+  </div>
+
+  <div class="burst only-a"><img src="claude-spark.svg" alt="Claude"></div>
+  <div class="sticker only-d"><img src="claude-spark.svg" alt="Claude"></div>
+  <img class="sig only-e" src="claude-spark.svg" alt="Claude">
+
+  <svg class="ink" width="1200" height="630" viewBox="0 0 1200 630" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M72 420 C 160 428, 250 414, 318 418" stroke="#FF5B38" stroke-width="4"/>
+    <path d="M340 392 C 410 372, 480 322, 566 300" stroke="#FBFAF8" stroke-width="5"/>
+    <path d="M542 286 L 568 300 L 544 318" stroke="#FBFAF8" stroke-width="5"/>
+
+    <g class="fix-arrow-default">
+      <path d="M706 530 C 668 528, 646 506, 650 472" stroke="#C6F135" stroke-width="4"/>
+      <path d="M637 488 L 650 470 L 665 489" stroke="#C6F135" stroke-width="4"/>
+    </g>
+
+    <g class="only-a">
+      <path d="M1004 150 L 978 136" stroke="#D97757" stroke-width="4"/>
+      <path d="M998 182 L 968 184" stroke="#D97757" stroke-width="4"/>
+      <path d="M1026 118 L 1010 96" stroke="#D97757" stroke-width="4"/>
+    </g>
+
+    <g class="only-c">
+      <path d="M993 178 L 971 170" stroke="#D97757" stroke-width="4"/>
+      <path d="M1033 121 L 1018 103" stroke="#D97757" stroke-width="4"/>
+      <path d="M1180 110 L 1194 90" stroke="#D97757" stroke-width="4"/>
+      <path d="M952 140 l4 -12 l4 12 l12 4 l-12 4 l-4 12 l-4 -12 l-12 -4 z" fill="#FFB08F" stroke="none"/>
+    </g>
+
+    <g class="only-e">
+      <path d="M626 528 C 604 520, 598 496, 612 472" stroke="#C6F135" stroke-width="4"/>
+      <path d="M598 489 L 612 470 L 626 490" stroke="#C6F135" stroke-width="4"/>
+      <path d="M1068 530 C 1060 500, 1100 486, 1136 494 C 1172 502, 1170 560, 1140 580 C 1110 598, 1066 590, 1062 556 C 1060 540, 1072 522, 1090 514" stroke="#FBFAF8" stroke-width="3"/>
+    </g>
+  </svg>
+
+  <div class="fix hand fix-default">one command fixes it</div>
+  <div class="fix hand fix-e only-e">one command fixes it</div>
+
+  <div class="foot">TEARDOWN · TOOLS, TAKEN APART</div>
+</div>
+<script>document.body.className = "v-" + (new URLSearchParams(location.search).get("v") || "a");</script>
+</body></html>

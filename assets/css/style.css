@@ -329,6 +329,23 @@ html[data-theme="dark"] .icon-moon { display: none; }
   pointer-events: none;
 }
 
+/* Hand-made cover variant: a 1200x630 image stands in for the generated art.
+   contain, not cover — cropping to the card's 16:10 would cut the headline. */
+.poster--cover { --pa-bg: #0A0A0C; background-image: none; }
+/* the letterbox bands pick up the cover's own colours instead of flat black */
+.poster--cover::before {
+  content: ""; position: absolute; inset: -24px; z-index: 0;
+  background: var(--cover, none) center / cover no-repeat;
+  filter: blur(20px) brightness(.55);
+}
+/* hairline edge so the card keeps its shape next to the generated posters */
+.poster--cover::after {
+  background-image: none; opacity: 1; mix-blend-mode: normal;
+  border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+}
+.poster--cover img { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; object-fit: contain; }
+.art__hero .poster.poster--cover { aspect-ratio: 1200 / 630; }
+
 /* Versus poster variant */
 .poster--vs { --pa-bg: #0A0A0C; }
 .poster--vs .poster__split { position: absolute; inset: 0; z-index: 1; display: flex; }

@@ -56,7 +56,16 @@
   }
 
   /* ---- The poster generator: three art directions from metadata alone ---- */
-  function posterHTML(post, cats) {
+  function posterHTML(post, cats, base) {
+    // A hand-made cover wins over the generated art. Decorative: the card
+    // title right below it carries the text.
+    if (post.cover) {
+      return '' +
+        '<div class="poster poster--cover" style="--cover:url(\'' + esc((base || '') + post.cover) + '\')" aria-hidden="true">' +
+          '<img src="' + esc((base || '') + post.cover) + '" width="1200" height="630" alt="" loading="lazy" decoding="async">' +
+        '</div>';
+    }
+
     var c = catOf(post, cats);
     var head = esc(post.posterH || post.title);
     var kind = esc(typeLabel(post.type));
@@ -113,7 +122,7 @@
     return '' +
       '<article class="card reveal' + (post.draft ? ' card--soon' : '') + '" data-cat="' + esc(post.category) + '" data-type="' + esc(post.type) + '">' +
         '<div class="card__media">' +
-          posterHTML(post, cats) +
+          posterHTML(post, cats, base) +
           (post.draft ? '<span class="pill-soon">In the works</span>' : '') +
         '</div>' +
         '<div class="card__meta">' +
@@ -137,7 +146,7 @@
     var c = catOf(post, cats);
     return '' +
       '<article class="feature reveal">' +
-        '<div class="card__media">' + posterHTML(post, cats) + '</div>' +
+        '<div class="card__media">' + posterHTML(post, cats, base) + '</div>' +
         '<div class="feature__body">' +
           '<div class="card__meta">' +
             '<span class="badge" style="--c:' + esc(c.color) + '">' + esc(typeLabel(post.type)) + '</span>' +

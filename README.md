@@ -46,6 +46,8 @@ posters were never drawn by hand in the first place.
   type: 'versus',                    // versus | tutorial | guide
   title: 'Tool A vs. Tool B: the honest scoreline',
   posterH: 'Two tools. One repo.',   // optional shorter headline for the poster
+  cover: 'assets/img/my-post/cover.webp', // optional 1200x630 hand-made cover: replaces the
+                                     // generated poster on cards and becomes the share card
   deck: 'One line that makes someone click.',
   category: 'AI Coding',             // must exist in CATEGORIES
   date: '2026-09-08',
